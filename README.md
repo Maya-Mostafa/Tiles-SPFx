@@ -1,4 +1,4 @@
-# tiles-sp-fx
+# Tiles SPFx
 
 ## Summary
 
