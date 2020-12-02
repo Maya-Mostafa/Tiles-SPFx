@@ -8,8 +8,8 @@ import {
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
 import * as strings from 'TilesSpFxWebPartStrings';
-import TilesSpFx from './components/TilesSpFx';
-import { ITilesSpFxProps } from './components/ITilesSpFxProps';
+import TilesSPFx from './components/TilesSPFx';
+import { ITilesSPFxProps } from './components/ITilesSPFxProps';
 
 export interface ITilesSpFxWebPartProps {
   description: string;
@@ -18,10 +18,11 @@ export interface ITilesSpFxWebPartProps {
 export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWebPartProps> {
 
   public render(): void {
-    const element: React.ReactElement<ITilesSpFxProps> = React.createElement(
-      TilesSpFx,
+    const element: React.ReactElement<ITilesSPFxProps> = React.createElement(
+      TilesSPFx,
       {
-        description: this.properties.description
+        description: this.properties.description,
+        context: this.context
       }
     );
 

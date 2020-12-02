@@ -1,25 +1,51 @@
 import * as React from 'react';
-import styles from './TilesSpFx.module.scss';
-import { ITilesSpFxProps } from './ITilesSpFxProps';
+import styles from './TilesSPFx.module.scss';
+import { ITilesSPFxProps } from './ITilesSPFxProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 
-export default class TilesSpFx extends React.Component<ITilesSpFxProps, {}> {
-  public render(): React.ReactElement<ITilesSpFxProps> {
+import { FilePicker, IFilePickerResult } from '@pnp/spfx-controls-react/lib/FilePicker';
+
+import {getTilesData} from '../Services/DataRequests';
+import ITile from './ITile/ITile';
+
+export default function TilesSPFx (props: ITilesSPFxProps) {
+
+    const [tilesData, setTilesData] = React.useState([]);
+    const [filePickerResult, setFilePickerResult] = React.useState({});
+
+    React.useEffect(()=>{
+      getTilesData(props.context).then((results)=>{
+        setTilesData(results);
+      });
+      console.log("filePickerResult", filePickerResult);
+    },[tilesData.length, filePickerResult]);
+
     return (
-      <div className={ styles.tilesSpFx }>
-        <div className={ styles.container }>
-          <div className={ styles.row }>
-            <div className={ styles.column }>
-              <span className={ styles.title }>Welcome to SharePoint!</span>
-              <p className={ styles.subTitle }>Customize SharePoint experiences using Web Parts.</p>
-              <p className={ styles.description }>{escape(this.props.description)}</p>
-              <a href="https://aka.ms/spfx" className={ styles.button }>
-                <span className={ styles.label }>Learn more</span>
-              </a>
-            </div>
-          </div>
-        </div>
+      <div className={styles.tilesSpFx}>
+       {tilesData.map((value:any)=>{
+         return(
+           <>
+           <ITile key={value.Id}
+            BgColor={value.BgColor} 
+            FgColor={value.FgColor}
+            Id={value.Id}
+            Link={value.Link}
+            Title={value.Title}>
+
+              <FilePicker
+              accepts= {[".gif", ".jpg", ".jpeg", ".bmp", ".dib", ".tif", ".tiff", ".ico", ".png", ".jxr", ".svg"]}
+              buttonIcon="FileImage"
+              onSave={(filePickerResult: IFilePickerResult) => { setFilePickerResult(filePickerResult) }}
+              onChanged={(filePickerResult: IFilePickerResult) => { setFilePickerResult(filePickerResult) }}
+              context={props.context}
+              buttonLabel="Pick Image" />   
+
+           </ITile>
+           </>
+         );
+       })}
+
+             
       </div>
     );
-  }
 }

@@ -1,3 +1,6 @@
-export interface ITilesSpFxProps {
+import { WebPartContext } from "@microsoft/sp-webpart-base";
+
+export interface ITilesSPFxProps {
   description: string;
+  context: WebPartContext;
 }
