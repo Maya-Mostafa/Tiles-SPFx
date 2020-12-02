@@ -71,4 +71,63 @@
       display: inline-block;
     }
   }
+
+  .tile{
+    display: block;
+    color: #fff;
+    border-radius: 2px;
+    width: 120px;
+    height: 120px;
+    float: left;
+    margin: 0 5px;
+    text-align: center;
+    a{
+      text-decoration: none;
+      display: block;
+      height: 40%;
+      padding-top: 25%;
+    }
+  }
+  .Bg, .Fg{
+    display: block;
+  }
+  .WhiteFg{
+    a{
+      color: #fff;
+    }
+  }
+  .BlueBg{
+    background-color: #0096CF;
+  }
+  .GreenBg{
+      background-color: #27AE60;
+  }
+  .GreyBg{
+      background-color: #9FA7A7;
+  }
+  .MintBg{
+      background-color: #1C9A82;
+  }
+  .NavyBg{
+      background-color: #4C5F79;
+  }
+  .OrangeBg{
+      background-color: #EA8020;
+  }
+  .PinkBg{
+      background-color: #F46C9E;
+  }
+  .PurpleBg{
+      background-color: #A061BA;
+  }
+  .RedBg{
+      background-color: #D7574A;
+  }
+  .TealBg{
+      background-color: #38A8AC;
+  }
+  .YellowBg{
+      background-color: #DAA62F;
+  }
+
 }
