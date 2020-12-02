@@ -84,8 +84,16 @@
     a{
       text-decoration: none;
       display: block;
-      height: 40%;
-      padding-top: 25%;
+      height: 25%;
+      padding-top: 15%;
+    }
+    .iconBtnCntnr{
+      float: right;
+    }
+    .iconBtn{
+      background-color: yellow;
+      width:20px;
+      height: 20px;
     }
   }
   .Bg, .Fg{

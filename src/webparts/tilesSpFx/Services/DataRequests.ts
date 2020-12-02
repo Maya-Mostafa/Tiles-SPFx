@@ -58,16 +58,13 @@ export const getTilesData = async (context:WebPartContext) :Promise <any> => {
         if(results){
             results.value.map((result:any)=>{
                 tilesData.push({
+                    Id: result.Id,
                     Title: result.Title,
-                    BgColor: result.BgColor,
-                    BgColorHex : getColorHex(result.BgColor),
-                    FgColor: result.FgColor,
-                    FgColorHex: getColorHex(result.FgColor),
+                    BgColor: result.Color,
+                    BgColorHex : getColorHex(result.Color),
                     Link: result.Link.Url,
-                    IconUrl : result.Icon,
-                    IconLink: result.IconLink,
-                    Id: result.Id
-                })
+                    IconName: result.IconName
+                });
             })
         }
         //console.log(tilesData);
@@ -76,4 +73,32 @@ export const getTilesData = async (context:WebPartContext) :Promise <any> => {
 
 }
 
+
+export const isEditMode = () : boolean =>{
+    return window.location.href.toLowerCase().indexOf("mode=edit") != -1
+}
+
+export const updateIcon = async (context: WebPartContext, itemId:number, iconName:string) =>{
+    console.log(iconName);
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items(${itemId})`;
+    
+    let body: string = JSON.stringify({
+        IconName: iconName
+    }),
+    spOptions: ISPHttpClientOptions = {
+        headers:{
+            Accept: "application/json;odata=nometadata", 
+            "Content-Type": "application/json;odata=nometadata",
+            "odata-version": "",
+            "IF-MATCH": "*",
+            "X-HTTP-Method": "MERGE",                
+        },
+        body: body
+    };
+
+    const _data = await context.spHttpClient.post(restUrl, SPHttpClient.configurations.v1, spOptions);
+    if (_data.ok){
+        console.log('Tile is updated!');
+    }
+}
 
