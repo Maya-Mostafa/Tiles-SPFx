@@ -48,8 +48,9 @@ const getColorHex = (colorName:string) : string => {
 };
 
 
-export const getTilesData = async (context:WebPartContext) :Promise <any> => {
-    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items`;
+export const getTilesData = async (context:WebPartContext, orderBy: string) :Promise <any> => {
+    // orderBy = orderBy ? orderBy : 'Title';
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items?$orderby=${orderBy} asc`;
     const _data = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1);
     let tilesData : {}[] = [];
 
@@ -62,24 +63,25 @@ export const getTilesData = async (context:WebPartContext) :Promise <any> => {
                     Title: result.Title,
                     BgColor: result.Color,
                     BgColorHex : getColorHex(result.Color),
-                    Link: result.Link.Url,
-                    IconName: result.IconName
+                    Link: result.Link,
+                    IconName: result.IconName,
+                    Target: result.OpenInNewWindow ? "_blank" : "_self",
+                    Order: result.Order
                 });
-            })
+            });
         }
         //console.log(tilesData);
         return tilesData;
     }
 
-}
+};
 
 
 export const isEditMode = () : boolean =>{
-    return window.location.href.toLowerCase().indexOf("mode=edit") != -1
-}
+    return window.location.href.toLowerCase().indexOf("mode=edit") != -1;
+};
 
 export const updateIcon = async (context: WebPartContext, itemId:number, iconName:string) =>{
-    console.log(iconName);
     const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items(${itemId})`;
     
     let body: string = JSON.stringify({
@@ -100,5 +102,27 @@ export const updateIcon = async (context: WebPartContext, itemId:number, iconNam
     if (_data.ok){
         console.log('Tile is updated!');
     }
-}
+};
 
+export const addTile = async (context: WebPartContext, tileInfo: any) =>{
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items`;
+    const body: string = JSON.stringify({
+        Title: tileInfo.Title,
+        Color: tileInfo.Color,
+        Link: tileInfo.Link,
+        IconName: tileInfo.Icon,
+        OpenInNewWindow: tileInfo.OpenNewWin
+    });
+    const spOptions: ISPHttpClientOptions = {
+        headers:{
+            Accept: "application/json;odata=nometadata", 
+            "Content-Type": "application/json;odata=nometadata",
+            "odata-version": ""
+        },
+        body: body
+    };
+    const _data = await context.spHttpClient.post(restUrl, SPHttpClient.configurations.v1, spOptions);
+    if(_data.ok){
+        console.log('New Tile is added!');
+    }
+}
