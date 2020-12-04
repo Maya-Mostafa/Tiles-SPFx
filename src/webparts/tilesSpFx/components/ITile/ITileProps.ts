@@ -4,7 +4,7 @@ export interface ITileProps{
     Link: string;
     BgColor: string;
     Id: any;
-    children: any;
     IconName: string;
-    handleIconSave: (itemId: any) => ((iconName: string)=>void) ;
+    Target: string;
+    handleIconSave: (itemId: any) => ((tIconName: string)=>void) ;
 }
