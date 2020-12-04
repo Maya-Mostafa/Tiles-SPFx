@@ -8,7 +8,7 @@ import {getTilesData, updateIcon} from '../Services/DataRequests';
 import ITile from './ITile/ITile';
 import ITileControls from './ITileControls/ITileControls';
 
-import {addTile} from '../Services/DataRequests';
+import {addTile, deleteTile} from '../Services/DataRequests';
 
 import { useBoolean } from '@uifabric/react-hooks';
 import {IDropdownOption} from '@fluentui/react';
@@ -26,6 +26,16 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const handleIconSave = (itemId: any)=>{
       return (tIconName: string)=>{
         updateIcon(props.context, itemId, tIconName).then(()=>{
+          getTilesData(props.context, props.orderBy).then((results)=>{
+            setTilesData(results);
+          });
+        });
+      };
+    };
+
+    const handleDelete = (itemId: any)=>{
+      return ()=>{
+        deleteTile(props.context, itemId).then(()=>{
           getTilesData(props.context, props.orderBy).then((results)=>{
             setTilesData(results);
           });
@@ -97,6 +107,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
                   IconName={value.IconName}
                   Target={value.Target}
                   handleIconSave={handleIconSave}
+                  handleDelete={handleDelete}
                   />              
               </>
             );

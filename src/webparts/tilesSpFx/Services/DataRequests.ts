@@ -125,4 +125,22 @@ export const addTile = async (context: WebPartContext, tileInfo: any) =>{
     if(_data.ok){
         console.log('New Tile is added!');
     }
+};
+
+export const deleteTile = async (context: WebPartContext, itemId: any) =>{
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items(${itemId})`;
+    let spOptions: ISPHttpClientOptions = {
+        headers:{
+            Accept: "application/json;odata=nometadata", 
+            "Content-Type": "application/json;odata=nometadata",
+            "odata-version": "",
+            "IF-MATCH": "*",
+            "X-HTTP-Method": "DELETE"         
+        },
+    };
+
+    const _data = await context.spHttpClient.post(restUrl, SPHttpClient.configurations.v1, spOptions);
+    if (_data.ok){
+        console.log('Tile is deleted!');
+    }
 }

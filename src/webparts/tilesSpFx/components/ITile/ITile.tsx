@@ -21,10 +21,12 @@ export default function ITile (props: ITileProps) {
         </a>
         
         <div className={styles.iconBtnCntnr}>
+          <Icon iconName="Settings" className={styles.settingsTileIcon} />
           <IconPicker buttonClassName={styles.iconBtn} renderOption={'dialog'}
             //onChange={(iconName: string) => { setIconName(iconName); }}
             onSave = {props.handleIconSave(props.Id)} />
-          <Icon iconName="Settings" />
+          
+          <Icon iconName="Delete" className={styles.deleteTileIcon} onClick={props.handleDelete(props.Id)}/>
         </div>
 
       </div>
