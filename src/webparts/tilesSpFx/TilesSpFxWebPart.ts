@@ -3,7 +3,8 @@ import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneTextField
+  PropertyPaneTextField,
+  PropertyPaneChoiceGroup
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 
@@ -13,6 +14,7 @@ import { ITilesSPFxProps } from './components/ITilesSPFxProps';
 
 export interface ITilesSpFxWebPartProps {
   description: string;
+  orderBy: string;
 }
 
 export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWebPartProps> {
@@ -22,7 +24,8 @@ export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWe
       TilesSPFx,
       {
         description: this.properties.description,
-        context: this.context
+        context: this.context,
+        orderBy: this.properties.orderBy,
       }
     );
 
@@ -42,15 +45,22 @@ export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWe
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: 'Settings'
           },
           groups: [
             {
-              groupName: strings.BasicGroupName,
+              //groupName: strings.BasicGroupName,
               groupFields: [
                 PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
-                })
+                  label: 'Tiles Title'
+                }),
+                PropertyPaneChoiceGroup('orderBy', {
+                  label: 'Order By',
+                  options: [
+                   { key: 'Title', text: 'Title', checked: true },
+                   { key: 'Order', text: 'Order' },
+                 ]
+               }),
               ]
             }
           ]
