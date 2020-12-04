@@ -1,6 +1,18 @@
 @import '~office-ui-fabric-react/dist/sass/References.scss';
 
-.tilesSpFx {
+$peelBlue : #0096CF;
+$peelGreen: #27AE60;
+$peelGrey: #9FA7A7;
+$peelMint : #1C9A82;
+$peelNavy : #4C5F79;
+$peelOrange : #EA8020;
+$peelPink : #F46C9E;
+$peelPurple : #A061BA;
+$peelRed : #D7574A;
+$peelTeal : #38A8AC;
+$peelYellow : #DAA62F;
+
+.tilesSPFx {
   .container {
     max-width: 700px;
     margin: 0px auto;
@@ -72,70 +84,145 @@
     }
   }
 
-  .tile{
+  .tileControls{
     display: block;
-    color: #fff;
-    border-radius: 2px;
-    width: 120px;
-    height: 120px;
-    float: left;
-    margin: 0 5px;
-    text-align: center;
-    a{
-      text-decoration: none;
+
+    &:before{
+      content: "";
+      background-color: #c8c6c4;
+      height: 1px;
+      margin: 20px 0 15px;
+      width: 100%;
       display: block;
-      height: 25%;
-      padding-top: 15%;
-    }
-    .iconBtnCntnr{
-      float: right;
-    }
-    .iconBtn{
-      background-color: yellow;
-      width:20px;
-      height: 20px;
     }
   }
-  .Bg, .Fg{
-    display: block;
-  }
-  .WhiteFg{
-    a{
+  .tilesCntnr{
+    margin: 10px 0 20px 0;
+    &:after{
+      content: '';
+      clear: both;
+      display: block;
+    }
+    .tile{
+      display: block;
       color: #fff;
+      border-radius: 2px;
+      width: 120px;
+      height: 120px;
+      float: left;
+      margin: 5px;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s ease;
+      a{
+        text-decoration: none;
+        display: block;
+        color: #fff;
+        height: 100%;
+        .tileIcon{
+          padding: 20px 12px 10px 12px;
+        }
+        .tileText{
+          font-size: 14px;
+        }
+        i{
+          line-height: 30px;
+          font-size: 30px;
+        }
+      }
+      .iconBtnCntnr{
+        position: absolute;
+        right: 2px;
+        bottom: 0;
+        color: #fff;
+        z-index: 999999;
+        // background-color: rgba(255,255,255,0.5);
+        border-radius: 2px;
+        width: 20px;
+        height: 20px;
+      }
+      .iconBtn{
+        background: transparent;
+        width: 20px;
+        height: 20px;
+        margin: 0;
+        padding: 0;
+        border: none;
+        min-width: 0;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      }
     }
-  }
-  .BlueBg{
-    background-color: #0096CF;
-  }
-  .GreenBg{
-      background-color: #27AE60;
-  }
-  .GreyBg{
-      background-color: #9FA7A7;
-  }
-  .MintBg{
-      background-color: #1C9A82;
-  }
-  .NavyBg{
-      background-color: #4C5F79;
-  }
-  .OrangeBg{
-      background-color: #EA8020;
-  }
-  .PinkBg{
-      background-color: #F46C9E;
-  }
-  .PurpleBg{
-      background-color: #A061BA;
-  }
-  .RedBg{
-      background-color: #D7574A;
-  }
-  .TealBg{
-      background-color: #38A8AC;
-  }
-  .YellowBg{
-      background-color: #DAA62F;
+    .Bg{
+      display: block;
+    }
+    .BlueBg{
+      background-color: $peelBlue;
+      &:hover{
+        background-color: darken($peelBlue, 5%);
+      }
+    }
+    .GreenBg{
+        background-color: $peelGreen;
+        &:hover{
+          background-color: darken($peelGreen, 5%);
+        }
+    }
+    .GreyBg{
+        background-color: $peelGrey;
+        &:hover{
+          background-color: darken($peelGrey, 5%);
+        }
+    }
+    .MintBg{
+        background-color: $peelMint;
+        &:hover{
+          background-color: darken($peelMint, 5%);
+        }
+    }
+    .NavyBg{
+        background-color: $peelNavy;
+        &:hover{
+          background-color: darken($peelNavy, 5%);
+        }
+    }
+    .OrangeBg{
+        background-color: $peelOrange;
+        &:hover{
+          background-color: darken($peelOrange, 5%);
+        }
+    }
+    .PinkBg{
+        background-color: $peelPink;
+        &:hover{
+          background-color: darken($peelPink, 5%);
+        }
+    }
+    .PurpleBg{
+        background-color: $peelPurple;
+        &:hover{
+          background-color: darken($peelPurple, 5%);
+        }
+    }
+    .RedBg{
+        background-color: $peelRed;
+        &:hover{
+          background-color: darken($peelRed, 5%);
+        }
+    }
+    .TealBg{
+        background-color: $peelTeal;
+        &:hover{
+          background-color: darken($peelTeal, 5%);
+        }
+    }
+    .YellowBg{
+        background-color: $peelYellow;
+        &:hover{
+          background-color: darken($peelYellow, 5%);
+        }
+    }
   }
 
 }
