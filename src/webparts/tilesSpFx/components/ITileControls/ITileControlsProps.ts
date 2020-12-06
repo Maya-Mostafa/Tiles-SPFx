@@ -16,5 +16,8 @@ export interface ITileControlsProps{
   hideDialog: any;
   toggleHideDialog: any;
 
+  errorMsgTitle : string;
+  errorMsgLink : string;
+
   addTileItem: any;
 }
