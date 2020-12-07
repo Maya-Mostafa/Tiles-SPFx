@@ -8,7 +8,7 @@ import {getTilesData, updateIcon} from '../Services/DataRequests';
 import ITile from './ITile/ITile';
 import ITileControls from './ITileControls/ITileControls';
 
-import {addTile, deleteTile} from '../Services/DataRequests';
+import {addTile, deleteTile, updateTile, getTile} from '../Services/DataRequests';
 
 import { useBoolean } from '@uifabric/react-hooks';
 import {IDropdownOption} from '@fluentui/react';
@@ -23,26 +23,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       });
     },[tilesData.length]);
 
-    const handleIconSave = (itemId: any)=>{
-      return (tIconName: string)=>{
-        updateIcon(props.context, itemId, tIconName).then(()=>{
-          getTilesData(props.context, props.orderBy).then((results)=>{
-            setTilesData(results);
-          });
-        });
-      };
-    };
-
-    const handleDelete = (itemId: any)=>{
-      return ()=>{
-        deleteTile(props.context, itemId).then(()=>{
-          getTilesData(props.context, props.orderBy).then((results)=>{
-            setTilesData(results);
-          });
-        });
-      };
-    };
-
+  
     const [formField, setFormField] = React.useState({
       titleField: "",
       linkField: ""
@@ -60,6 +41,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const [colorField, setColorField] = React.useState<IDropdownOption>();
     const colorFieldBase = colorField;
     const onChangeColorField = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
+      console.log(item)
       setColorField(item);
     };
   
@@ -81,8 +63,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       });
       setColorField(colorFieldBase);
       setIconField(iconFieldBase);
-    }
-
+    };
     const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
     const [errorMsgTitle, setErrorMsgTitle] = React.useState('');
     const [errorMsgLink, setErrorMsgLink] = React.useState('');
@@ -109,7 +90,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           Color: colorField ? colorField.text : "Blue",
           Icon: iconField ? iconField.data.icon : "",
           OpenNewWin: openNewWin
-        }
+        };
         addTile(props.context, tileInfo).then(()=>{
           getTilesData(props.context, props.orderBy).then((results)=>{
             setTilesData(results);
@@ -121,6 +102,46 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const openDialog = () => {
       resetFields();
       toggleHideDialog();
+    };
+
+    const handleIconSave = (itemId: any)=>{
+      return (tIconName: string)=>{
+        updateIcon(props.context, itemId, tIconName).then(()=>{
+          getTilesData(props.context, props.orderBy).then((results)=>{
+            setTilesData(results);
+          });
+        });
+      };
+    };
+
+    const handleDelete = (itemId: any)=>{
+      return ()=>{
+        deleteTile(props.context, itemId).then(()=>{
+          getTilesData(props.context, props.orderBy).then((results)=>{
+            setTilesData(results);
+          });
+        });
+      };
+    };
+
+    const handleEdit = (itemId: any)=>{
+      return ()=>{
+        getTile(props.context, itemId).then((result :any)=>{
+          console.log(result);
+          setFormField({
+            titleField: result.Title,
+            linkField: result.Link
+          });
+          setColorField(result.Color);
+          setIconField(result.IconName);
+          toggleHideDialog();
+        });
+      };
+    };
+
+    const [showEditControls, {toggle: toggleEditControls}] = useBoolean(false);
+    const handleEditChange = (ev: React.MouseEvent<HTMLElement>, checked: boolean) =>{
+      toggleEditControls();
     };
 
     return (
@@ -140,6 +161,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
                   Target={value.Target}
                   handleIconSave={handleIconSave}
                   handleDelete={handleDelete}
+                  handleEdit={handleEdit}
+                  showEditControls={showEditControls}
                   />              
               </>
             );
@@ -153,6 +176,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           openNewWin= {openNewWin} onChangeOpenNewWin={onChangeOpenNewWin}
           hideDialog = {hideDialog} toggleHideDialog={openDialog}
           addTileItem = {addTileItem} errorMsgTitle={errorMsgTitle} errorMsgLink={errorMsgLink}
+          handleEditChange={handleEditChange}
         />
 
       </div>
