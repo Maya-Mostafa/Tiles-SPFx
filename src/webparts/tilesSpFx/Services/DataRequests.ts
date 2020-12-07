@@ -1,4 +1,5 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
+import { SPPermission } from "@microsoft/sp-page-context";
 import {SPHttpClientResponse, SPHttpClient, ISPHttpClientOptions} from "@microsoft/sp-http";
 
 const getColorHex = (colorName:string) : string => {
@@ -76,11 +77,6 @@ export const getTilesData = async (context:WebPartContext, orderBy: string) :Pro
 
 };
 
-
-export const isEditMode = () : boolean =>{
-    return window.location.href.toLowerCase().indexOf("mode=edit") != -1;
-};
-
 export const updateIcon = async (context: WebPartContext, itemId:number, iconName:string) =>{
     const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items(${itemId})`;
     
@@ -105,23 +101,23 @@ export const updateIcon = async (context: WebPartContext, itemId:number, iconNam
 };
 
 export const addTile = async (context: WebPartContext, tileInfo: any) =>{
-    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items`;
-    const body: string = JSON.stringify({
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items`,
+    body: string = JSON.stringify({
         Title: tileInfo.Title,
         Color: tileInfo.Color,
         Link: tileInfo.Link,
         IconName: tileInfo.Icon,
         OpenInNewWindow: tileInfo.OpenNewWin
-    });
-    const spOptions: ISPHttpClientOptions = {
+    }),
+    spOptions: ISPHttpClientOptions = {
         headers:{
             Accept: "application/json;odata=nometadata", 
             "Content-Type": "application/json;odata=nometadata",
             "odata-version": ""
         },
         body: body
-    };
-    const _data = await context.spHttpClient.post(restUrl, SPHttpClient.configurations.v1, spOptions);
+    },
+    _data = await context.spHttpClient.post(restUrl, SPHttpClient.configurations.v1, spOptions);
     if(_data.ok){
         console.log('New Tile is added!');
     }
@@ -143,4 +139,57 @@ export const deleteTile = async (context: WebPartContext, itemId: any) =>{
     if (_data.ok){
         console.log('Tile is deleted!');
     }
-}
+};
+
+export const updateTile = async (context: WebPartContext, itemId: any, tileInfo: any) =>{
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items(${itemId})`,
+    body: string = JSON.stringify({
+        Title: tileInfo.Title,
+        Color: tileInfo.Color,
+        Link: tileInfo.Link,
+        IconName: tileInfo.Icon,
+        OpenInNewWindow: tileInfo.OpenNewWin
+    }),
+    spOptions: ISPHttpClientOptions = {
+        headers:{
+            Accept: "application/json;odata=nometadata", 
+            "Content-Type": "application/json;odata=nometadata",
+            "odata-version": "",
+            "IF-MATCH": "*",
+            "X-HTTP-Method": "MERGE",    
+        },
+        body: body
+    },
+    _data = await context.spHttpClient.post(restUrl, SPHttpClient.configurations.v1, spOptions);
+    
+    if (_data.ok){
+        console.log('Tile is updated!');
+    }
+};
+
+export const getTile = async (context: WebPartContext, itemId: any) =>{
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items(${itemId})`,
+    _data = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1);
+    let tileData : {} = {};
+
+    if(_data.ok){
+        const result = await _data.json();
+        if(result){
+            tileData = {
+                Title: result.Title,
+                Color: result.Color,
+                Link: result.Link,
+                IconName: result.IconName,
+                OpenNewWin: result.OpenInNewWindow,
+            } 
+        }
+        return tileData;
+    }
+};
+
+export const isUserManage = (context: WebPartContext) : boolean =>{
+    const userPermissions = context.pageContext.web.permissions,
+        permission = new SPPermission (userPermissions.value);
+    
+    return permission.hasPermission(SPPermission.manageWeb);
+};
