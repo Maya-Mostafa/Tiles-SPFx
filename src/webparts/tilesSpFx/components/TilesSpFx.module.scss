@@ -12,6 +12,107 @@ $peelRed : #D7574A;
 $peelTeal : #38A8AC;
 $peelYellow : #DAA62F;
 
+.BlueBg{
+  background-color: $peelBlue;
+  &:hover{
+    background-color: darken($peelBlue, 5%);
+  }
+}
+.BlueFg{
+  color: $peelBlue;
+}
+.GreenBg{
+    background-color: $peelGreen;
+    &:hover{
+      background-color: darken($peelGreen, 5%);
+    }
+}
+.GreenFg{
+  color: $peelGreen;
+}
+.GreyBg{
+    background-color: $peelGrey;
+    &:hover{
+      background-color: darken($peelGrey, 5%);
+    }
+}
+.GreyFg{
+  color: $peelGrey;
+}
+.MintBg{
+    background-color: $peelMint;
+    &:hover{
+      background-color: darken($peelMint, 5%);
+    }
+}
+.MintFg{
+  color: $peelMint;
+}
+.NavyBg{
+    background-color: $peelNavy;
+    &:hover{
+      background-color: darken($peelNavy, 5%);
+    }
+}
+.NavyFg{
+  color: $peelNavy;
+}
+.OrangeBg{
+    background-color: $peelOrange;
+    &:hover{
+      background-color: darken($peelOrange, 5%);
+    }
+}
+.OrangeFg{
+  color: $peelOrange;
+}
+.PinkBg{
+    background-color: $peelPink;
+    &:hover{
+      background-color: darken($peelPink, 5%);
+    }
+}
+.PinkFg{
+  color: $peelPink;
+}
+.PurpleBg{
+    background-color: $peelPurple;
+    &:hover{
+      background-color: darken($peelPurple, 5%);
+    }
+}
+.PurpleFg{
+  color: $peelPurple;
+}
+.RedBg{
+    background-color: $peelRed;
+    &:hover{
+      background-color: darken($peelRed, 5%);
+    }
+}
+.RedFg{
+  color: $peelRed;
+}
+.TealBg{
+    background-color: $peelTeal;
+    &:hover{
+      background-color: darken($peelTeal, 5%);
+    }
+}
+.TealFg{
+  color: $peelTeal;
+}
+.YellowBg{
+    background-color: $peelYellow;
+    &:hover{
+      background-color: darken($peelYellow, 5%);
+    }
+}
+.YellowFg{
+  color: $peelYellow;
+}
+
+
 .tilesSPFx {
   .container {
     max-width: 700px;
@@ -95,7 +196,19 @@ $peelYellow : #DAA62F;
       width: 100%;
       display: block;
     }
+
+    .tilesEditToggle{
+      float: right;
+      margin-top: -7px;
+    }
   }
+
+  .tileForm{
+    .Fg{
+      background: transparent;
+    }
+  }
+  
   .tilesCntnr{
     margin: 10px 0 20px 0;
     &:after{
@@ -131,7 +244,7 @@ $peelYellow : #DAA62F;
         }
       }
       .iconBtnCntnr{
-        display: none!important;
+        // display: none!important;
         position: absolute;
         right: 2px;
         bottom: 0;
@@ -163,6 +276,7 @@ $peelYellow : #DAA62F;
           top: 7px;
         }
         .settingsTileIcon{
+          cursor: pointer;
           top: 7px;
           position: absolute;
           right: 3px;
@@ -175,72 +289,7 @@ $peelYellow : #DAA62F;
     .Bg{
       display: block;
     }
-    .BlueBg{
-      background-color: $peelBlue;
-      &:hover{
-        background-color: darken($peelBlue, 5%);
-      }
-    }
-    .GreenBg{
-        background-color: $peelGreen;
-        &:hover{
-          background-color: darken($peelGreen, 5%);
-        }
-    }
-    .GreyBg{
-        background-color: $peelGrey;
-        &:hover{
-          background-color: darken($peelGrey, 5%);
-        }
-    }
-    .MintBg{
-        background-color: $peelMint;
-        &:hover{
-          background-color: darken($peelMint, 5%);
-        }
-    }
-    .NavyBg{
-        background-color: $peelNavy;
-        &:hover{
-          background-color: darken($peelNavy, 5%);
-        }
-    }
-    .OrangeBg{
-        background-color: $peelOrange;
-        &:hover{
-          background-color: darken($peelOrange, 5%);
-        }
-    }
-    .PinkBg{
-        background-color: $peelPink;
-        &:hover{
-          background-color: darken($peelPink, 5%);
-        }
-    }
-    .PurpleBg{
-        background-color: $peelPurple;
-        &:hover{
-          background-color: darken($peelPurple, 5%);
-        }
-    }
-    .RedBg{
-        background-color: $peelRed;
-        &:hover{
-          background-color: darken($peelRed, 5%);
-        }
-    }
-    .TealBg{
-        background-color: $peelTeal;
-        &:hover{
-          background-color: darken($peelTeal, 5%);
-        }
-    }
-    .YellowBg{
-        background-color: $peelYellow;
-        &:hover{
-          background-color: darken($peelYellow, 5%);
-        }
-    }
+    
   }
 
 }

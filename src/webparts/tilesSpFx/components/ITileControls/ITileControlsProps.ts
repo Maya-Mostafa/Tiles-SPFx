@@ -20,4 +20,6 @@ export interface ITileControlsProps{
   errorMsgLink : string;
 
   addTileItem: any;
+
+  handleEditChange: any;
 }

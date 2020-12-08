@@ -56,3 +56,4 @@ This extension illustrates the following concepts:
 - [https://pnp.github.io/sp-dev-fx-controls-react/controls/IconPicker/] PnP Icon Picker
 - [https://www.npmjs.com/package/react-icons] React Icons
 - [https://www.npmjs.com/package/@fluentui/react-icons] Fluent React Icons
+- [https://letslearnoffice365.wordpress.com/2019/02/02/how-to-check-permissions-for-current-user-sharepoint-online-spfx/] SPFx Check User Permissions

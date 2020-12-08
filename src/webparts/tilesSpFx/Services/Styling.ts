@@ -1,4 +1,4 @@
-export const getIconNames = () =>{
+export const getIconNames = () : string[]=>{
     const icons1 = [
         "12PointStar",
         "6PointStar",
@@ -2799,6 +2799,23 @@ export const getIconNames = () =>{
     ];
 
     return icons;
-}
-  
+};
+
+export const getColors = () : {}[] =>{
+    const colors = [
+        {Key: "blue", Name: "Blue", Hex: "#0096CF"},
+        {Key: "green", Name: "Green", Hex: "#27AE60"},
+        {Key: "grey", Name: "Grey", Hex: "#9FA7A7"},
+        {Key: "mint", Name: "Mint", Hex: "#1C9A82"},
+        {Key: "navy", Name: "Navy", Hex: "#4C5F79"},
+        {Key: "orange", Name: "Orange", Hex: "#EA8020"},
+        {Key: "pink", Name: "Pink", Hex: "#F46C9E"},
+        {Key: "purple", Name: "Purple", Hex: "#A061BA"},
+        {Key: "red", Name: "Red", Hex: "#D7574A"},
+        {Key: "teal", Name: "Teal", Hex: "#38A8AC"},
+        {Key: "yellow", Name: "Yellow", Hex: "#DAA62F"},
+    ];
+
+    return colors;
+};
    

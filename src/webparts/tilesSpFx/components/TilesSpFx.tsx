@@ -8,7 +8,7 @@ import {getTilesData, updateIcon} from '../Services/DataRequests';
 import ITile from './ITile/ITile';
 import ITileControls from './ITileControls/ITileControls';
 
-import {addTile, deleteTile} from '../Services/DataRequests';
+import {addTile, deleteTile, updateTile, getTile} from '../Services/DataRequests';
 
 import { useBoolean } from '@uifabric/react-hooks';
 import {IDropdownOption} from '@fluentui/react';
@@ -16,33 +16,7 @@ import {IDropdownOption} from '@fluentui/react';
 export default function TilesSPFx (props: ITilesSPFxProps) {
 
     const [tilesData, setTilesData] = React.useState([]);
-
-    React.useEffect(()=>{
-      getTilesData(props.context, props.orderBy).then((results)=>{
-        setTilesData(results);
-      });
-    },[tilesData.length]);
-
-    const handleIconSave = (itemId: any)=>{
-      return (tIconName: string)=>{
-        updateIcon(props.context, itemId, tIconName).then(()=>{
-          getTilesData(props.context, props.orderBy).then((results)=>{
-            setTilesData(results);
-          });
-        });
-      };
-    };
-
-    const handleDelete = (itemId: any)=>{
-      return ()=>{
-        deleteTile(props.context, itemId).then(()=>{
-          getTilesData(props.context, props.orderBy).then((results)=>{
-            setTilesData(results);
-          });
-        });
-      };
-    };
-
+  
     const [formField, setFormField] = React.useState({
       titleField: "",
       linkField: ""
@@ -74,6 +48,21 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       toggleOpenNewWin();
     };
 
+    const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
+    const [errorMsgTitle, setErrorMsgTitle] = React.useState('');
+    const [errorMsgLink, setErrorMsgLink] = React.useState('');
+    
+    const [showEditControls, {toggle: toggleEditControls}] = useBoolean(false);
+    const handleEditChange = (ev: React.MouseEvent<HTMLElement>, checked: boolean) =>{
+      toggleEditControls();
+    };
+
+    React.useEffect(()=>{
+      getTilesData(props.context, props.orderBy).then((results)=>{
+        setTilesData(results);
+      });      
+    },[tilesData.length]);
+
     const resetFields = () =>{
       setFormField({
         titleField:"",
@@ -81,11 +70,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       });
       setColorField(colorFieldBase);
       setIconField(iconFieldBase);
-    }
+    };
 
-    const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
-    const [errorMsgTitle, setErrorMsgTitle] = React.useState('');
-    const [errorMsgLink, setErrorMsgLink] = React.useState('');
     const addTileItem = () =>{      
       setErrorMsgTitle("");
       setErrorMsgLink("");
@@ -109,7 +95,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           Color: colorField ? colorField.text : "Blue",
           Icon: iconField ? iconField.data.icon : "",
           OpenNewWin: openNewWin
-        }
+        };
         addTile(props.context, tileInfo).then(()=>{
           getTilesData(props.context, props.orderBy).then((results)=>{
             setTilesData(results);
@@ -119,8 +105,44 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     };
 
     const openDialog = () => {
-      resetFields();
+      //resetFields();
       toggleHideDialog();
+    };
+
+    const handleIconSave = (itemId: any)=>{
+      return (tIconName: string)=>{
+        updateIcon(props.context, itemId, tIconName).then(()=>{
+          getTilesData(props.context, props.orderBy).then((results)=>{
+            setTilesData(results);
+          });
+        });
+      };
+    };
+
+    const handleDelete = (itemId: any)=>{
+      return ()=>{
+        deleteTile(props.context, itemId).then(()=>{
+          getTilesData(props.context, props.orderBy).then((results)=>{
+            setTilesData(results);
+          });
+        });
+      };
+    };
+
+    const handleEdit = (itemId: any)=>{
+      return ()=>{
+        getTile(props.context, itemId).then((result :any)=>{
+          toggleHideDialog();
+          setFormField({
+            titleField: result.Title,
+            linkField: result.Link
+          });           
+          setColorField({key: result.Color.toLowerCase(), text: result.Color, data: {icon: "CircleFill"}});
+          setIconField({key: result.IconName, text: result.IconName, data: {icon: result.IconName}});
+          console.log("colorField", colorField);
+          console.log("iconField", iconField);
+        });
+      };
     };
 
     return (
@@ -140,6 +162,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
                   Target={value.Target}
                   handleIconSave={handleIconSave}
                   handleDelete={handleDelete}
+                  handleEdit={handleEdit}
+                  showEditControls={showEditControls}
                   />              
               </>
             );
@@ -151,8 +175,9 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           colorField = {colorField} onChangeColorField = {onChangeColorField}
           iconField = {iconField} onChangeIconField={onChangeIconField}
           openNewWin= {openNewWin} onChangeOpenNewWin={onChangeOpenNewWin}
-          hideDialog = {hideDialog} toggleHideDialog={openDialog}
+          hideDialog = {hideDialog} toggleHideDialog={toggleHideDialog}
           addTileItem = {addTileItem} errorMsgTitle={errorMsgTitle} errorMsgLink={errorMsgLink}
+          handleEditChange={handleEditChange} 
         />
 
       </div>
