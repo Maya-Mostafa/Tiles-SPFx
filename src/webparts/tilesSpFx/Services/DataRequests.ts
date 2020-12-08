@@ -49,7 +49,7 @@ const getColorHex = (colorName:string) : string => {
 
 
 export const getTilesData = async (context:WebPartContext, orderBy: string) :Promise <any> => {
-    // orderBy = orderBy ? orderBy : 'Title';
+    orderBy = orderBy ? orderBy : 'Title';
     const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items?$orderby=${orderBy} asc`;
     const _data = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1);
     let tilesData : {}[] = [];
