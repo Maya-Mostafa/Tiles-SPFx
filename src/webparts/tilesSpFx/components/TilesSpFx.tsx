@@ -16,13 +16,6 @@ import {IDropdownOption} from '@fluentui/react';
 export default function TilesSPFx (props: ITilesSPFxProps) {
 
     const [tilesData, setTilesData] = React.useState([]);
-
-    React.useEffect(()=>{
-      getTilesData(props.context, props.orderBy).then((results)=>{
-        setTilesData(results);
-      });
-    },[tilesData.length]);
-
   
     const [formField, setFormField] = React.useState({
       titleField: "",
@@ -41,7 +34,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const [colorField, setColorField] = React.useState<IDropdownOption>();
     const colorFieldBase = colorField;
     const onChangeColorField = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
-      console.log(item)
+      console.log("item", item);
       setColorField(item);
     };
   
@@ -56,6 +49,21 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       toggleOpenNewWin();
     };
 
+    const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
+    const [errorMsgTitle, setErrorMsgTitle] = React.useState('');
+    const [errorMsgLink, setErrorMsgLink] = React.useState('');
+    
+    const [showEditControls, {toggle: toggleEditControls}] = useBoolean(false);
+    const handleEditChange = (ev: React.MouseEvent<HTMLElement>, checked: boolean) =>{
+      toggleEditControls();
+    };
+
+    React.useEffect(()=>{
+      getTilesData(props.context, props.orderBy).then((results)=>{
+        setTilesData(results);
+      });
+    },[tilesData.length, colorField]);
+
     const resetFields = () =>{
       setFormField({
         titleField:"",
@@ -64,9 +72,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       setColorField(colorFieldBase);
       setIconField(iconFieldBase);
     };
-    const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
-    const [errorMsgTitle, setErrorMsgTitle] = React.useState('');
-    const [errorMsgLink, setErrorMsgLink] = React.useState('');
+
     const addTileItem = () =>{      
       setErrorMsgTitle("");
       setErrorMsgLink("");
@@ -127,22 +133,21 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const handleEdit = (itemId: any)=>{
       return ()=>{
         getTile(props.context, itemId).then((result :any)=>{
-          console.log(result);
           setFormField({
             titleField: result.Title,
             linkField: result.Link
           });
-          setColorField(result.Color);
+                    
+          let itemColor: IDropdownOption = {key: result.Color.toString().toLowerCase(), text: result.Color, data: {icon: "CircleFill"}};
+          console.log("itemColor", itemColor);
+          setColorField(itemColor);
           setIconField(result.IconName);
           toggleHideDialog();
         });
       };
     };
 
-    const [showEditControls, {toggle: toggleEditControls}] = useBoolean(false);
-    const handleEditChange = (ev: React.MouseEvent<HTMLElement>, checked: boolean) =>{
-      toggleEditControls();
-    };
+    
 
     return (
       <div className={styles.tilesSPFx}>
