@@ -34,7 +34,6 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const [colorField, setColorField] = React.useState<IDropdownOption>();
     const colorFieldBase = colorField;
     const onChangeColorField = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
-      console.log("item", item);
       setColorField(item);
     };
   
@@ -61,8 +60,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     React.useEffect(()=>{
       getTilesData(props.context, props.orderBy).then((results)=>{
         setTilesData(results);
-      });
-    },[tilesData.length, colorField]);
+      });      
+    },[tilesData.length]);
 
     const resetFields = () =>{
       setFormField({
@@ -106,7 +105,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     };
 
     const openDialog = () => {
-      resetFields();
+      //resetFields();
       toggleHideDialog();
     };
 
@@ -133,21 +132,18 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const handleEdit = (itemId: any)=>{
       return ()=>{
         getTile(props.context, itemId).then((result :any)=>{
+          toggleHideDialog();
           setFormField({
             titleField: result.Title,
             linkField: result.Link
-          });
-                    
-          let itemColor: IDropdownOption = {key: result.Color.toString().toLowerCase(), text: result.Color, data: {icon: "CircleFill"}};
-          console.log("itemColor", itemColor);
-          setColorField(itemColor);
-          setIconField(result.IconName);
-          toggleHideDialog();
+          });           
+          setColorField({key: result.Color.toLowerCase(), text: result.Color, data: {icon: "CircleFill"}});
+          setIconField({key: result.IconName, text: result.IconName, data: {icon: result.IconName}});
+          console.log("colorField", colorField);
+          console.log("iconField", iconField);
         });
       };
     };
-
-    
 
     return (
       <div className={styles.tilesSPFx}>
@@ -179,9 +175,9 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           colorField = {colorField} onChangeColorField = {onChangeColorField}
           iconField = {iconField} onChangeIconField={onChangeIconField}
           openNewWin= {openNewWin} onChangeOpenNewWin={onChangeOpenNewWin}
-          hideDialog = {hideDialog} toggleHideDialog={openDialog}
+          hideDialog = {hideDialog} toggleHideDialog={toggleHideDialog}
           addTileItem = {addTileItem} errorMsgTitle={errorMsgTitle} errorMsgLink={errorMsgLink}
-          handleEditChange={handleEditChange}
+          handleEditChange={handleEditChange} 
         />
 
       </div>
