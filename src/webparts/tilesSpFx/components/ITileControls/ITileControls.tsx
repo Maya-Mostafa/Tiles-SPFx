@@ -23,7 +23,7 @@ export default function ITileControls (props: ITileControlsProps) {
       }
 
       <IDialog hideDialog={props.hideDialog} toggleHideDialog={props.toggleHideDialog} addTileItem={props.addTileItem}>
-        <ITileForm formField={props.formField} colorField={props.context} iconField={props.iconField} openNewWin={props.openNewWin}
+        <ITileForm formField={props.formField} colorField={props.colorField} iconField={props.iconField} openNewWin={props.openNewWin}
           onChangeFormField={props.onChangeFormField} onChangeOpenNewWin={props.onChangeOpenNewWin}
           onChangeColorField={props.onChangeColorField} onChangeIconField={props.onChangeIconField} 
           errorMsgTitle={props.errorMsgTitle} errorMsgLink={props.errorMsgLink}
