@@ -35,12 +35,14 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const colorFieldBase = colorField;
     const onChangeColorField = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
       setColorField(item);
+      console.log("color item", item);
     };
   
     const [iconField, setIconField] = React.useState<IDropdownOption>();
     const iconFieldBase = iconField;
     const onChangeIconField = (event: React.FormEvent<HTMLDivElement>, item: IDropdownOption): void => {
       setIconField(item);
+      console.log("icon item", item);
     };
   
     const [openNewWin, { toggle: toggleOpenNewWin }] = useBoolean(true);
@@ -139,8 +141,6 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           });           
           setColorField({key: result.Color.toLowerCase(), text: result.Color, data: {icon: "CircleFill"}});
           setIconField({key: result.IconName, text: result.IconName, data: {icon: result.IconName}});
-          console.log("colorField", colorField);
-          console.log("iconField", iconField);
         });
       };
     };

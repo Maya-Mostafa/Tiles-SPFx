@@ -181,7 +181,7 @@ export const getTile = async (context: WebPartContext, itemId: any) =>{
                 Link: result.Link,
                 IconName: result.IconName,
                 OpenNewWin: result.OpenInNewWindow,
-            } 
+            }; 
         }
         return tileData;
     }
