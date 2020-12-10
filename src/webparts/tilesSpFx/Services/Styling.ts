@@ -1575,6 +1575,7 @@ export const getIconNames = () : string[]=>{
         "Blocked2",
         "BlockedSite",
         "BlockedSolid",
+        "Blog",
         "BlowingSnow",
         "Blur",
         "Boards",
