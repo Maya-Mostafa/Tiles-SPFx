@@ -44,6 +44,10 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
         idField : ""
       });
     };
+    const [errorMsgField , setErrorMsgField] = React.useState({
+      titleField: "",
+      linkField: ""
+    });
     
     const [isNewDialog, setIsNewDialog] = React.useState(true);
     const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
@@ -62,9 +66,6 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       title: "Delete Tile"
     }; 
     const [hideDeleteDialog, {toggle: toggleHideDeleteDialog}] = useBoolean(true);
-
-    const [errorMsgTitle, setErrorMsgTitle] = React.useState('');
-    const [errorMsgLink, setErrorMsgLink] = React.useState('');
     
     const [showEditControls, {toggle: toggleEditControls}] = useBoolean(false);
     const handleEditChange = (ev: React.MouseEvent<HTMLElement>, checked: boolean) =>{
@@ -86,39 +87,21 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
         });
       };
     };
-
-    const addTileItem = () =>{         
-      setErrorMsgTitle("");
-      setErrorMsgLink("");
+    const handleError = (callback:any) =>{
       if (formField.titleField == "" && formField.linkField == ""){
-        setErrorMsgTitle("Field Required");
-        setErrorMsgLink("Field Required");
+        setErrorMsgField({titleField:"Title Field Required", linkField:"Link Field Required"});
       }
       else if (formField.titleField == ""){
-        setErrorMsgTitle("Field Required");
+        setErrorMsgField({titleField:"Title Field Required", linkField:""});
       }
       else if (formField.linkField == ""){
-        setErrorMsgLink("Field Required");
+        setErrorMsgField({titleField:"", linkField:"Link Field Required"});
       }
       else{
-        setErrorMsgTitle("");
-        setErrorMsgLink("");
-        toggleHideDialog();
-        const tileInfo : any = {
-          Title: formField.titleField,
-          Link: formField.linkField,
-          Color: formField.colorField.text,
-          Icon: formField.iconField.data.icon,
-          OpenNewWin: formField.openNewWin
-        };
-        addTile(props.context, tileInfo).then(()=>{
-          getTilesData(props.context, props.orderBy).then((results)=>{
-            setTilesData(results);
-          });
-        });
+        setErrorMsgField({titleField:"", linkField:""});
+        callback();
       }
     };
-
     const handleDelete = (itemId: any)=>{
       return () =>{
         setFormField({
@@ -128,16 +111,6 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
         toggleHideDeleteDialog();
       };
     };
-    const deleteTileItem = () =>{
-      deleteTile(props.context, formField.idField).then(()=>{
-        getTilesData(props.context, props.orderBy).then((results)=>{
-          setTilesData(results);          
-        });
-      }).then(()=>{
-        toggleHideDeleteDialog();
-      });
-    };
-
     const handleEdit = (tileInfo : any)=>{
       return ()=>{
           setIsNewDialog(false);
@@ -152,21 +125,48 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           });           
       };
     };
-    const updateTileItem = () =>{
-      updateTile(props.context, formField.idField, {
-        Title: formField.titleField,
-        Link: formField.linkField,
-        Color: formField.colorField.text,
-        IconName: formField.iconField.data.icon,
-        OpenInNewWindow: formField.openNewWin
-      }).then(()=>{
-        getTilesData(props.context, props.orderBy).then((results)=>{
-          setTilesData(results);
-          toggleHideDialog();
+
+    const addTileItem = () =>{         
+      handleError(()=>{
+        const tileInfo : any = {
+          Title: formField.titleField,
+          Link: formField.linkField,
+          Color: formField.colorField.text,
+          Icon: formField.iconField.data.icon,
+          OpenNewWin: formField.openNewWin
+        };
+        addTile(props.context, tileInfo).then(()=>{
+          getTilesData(props.context, props.orderBy).then((results)=>{
+            setTilesData(results);
+          });
         });
+        toggleHideDialog();
       });
     };
-    
+    const deleteTileItem = () =>{
+      deleteTile(props.context, formField.idField).then(()=>{
+        getTilesData(props.context, props.orderBy).then((results)=>{
+          setTilesData(results);          
+        });
+      });
+      toggleHideDeleteDialog();
+    };
+    const updateTileItem = () =>{
+      handleError(()=>{
+        updateTile(props.context, formField.idField, {
+          Title: formField.titleField,
+          Link: formField.linkField,
+          Color: formField.colorField.text,
+          IconName: formField.iconField.data.icon,
+          OpenInNewWindow: formField.openNewWin
+        }).then(()=>{
+          getTilesData(props.context, props.orderBy).then((results)=>{
+            setTilesData(results);
+          });
+        });
+        toggleHideDialog();
+      });
+    };
 
     return (
       <div className={styles.tilesSPFx}>
@@ -204,7 +204,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
             dialogContentProps={dialogContentProps}>
             <ITileForm 
               formField={formField} onChangeFormField={onChangeFormField}
-              errorMsgTitle={errorMsgTitle} errorMsgLink={errorMsgLink}/>
+              errorMsgField={errorMsgField}/>
             <DialogFooter>
                 {isNewDialog 
                     ? <PrimaryButton onClick={addTileItem} text="Save" />
