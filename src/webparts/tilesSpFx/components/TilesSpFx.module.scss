@@ -113,6 +113,27 @@ $peelYellow : #DAA62F;
 }
 
 
+.tileForm{
+  .Fg{
+    background: transparent;
+  }
+  .iconDpdCntnr{
+    position: relative;
+    .iconDpd{
+      position: relative;
+      input{
+        padding-left: 22px!important;
+      }
+    }
+    .iconDpdIcon{
+      position: absolute;
+      bottom: 9px;
+      left: 9px;
+    }
+    
+  }
+}
+
 .tilesSPFx {
   .container {
     max-width: 700px;
@@ -203,11 +224,7 @@ $peelYellow : #DAA62F;
     }
   }
 
-  .tileForm{
-    .Fg{
-      background: transparent;
-    }
-  }
+  
   
   .tilesCntnr{
     margin: 10px 0 20px 0;
