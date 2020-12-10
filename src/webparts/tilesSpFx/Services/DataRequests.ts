@@ -147,7 +147,7 @@ export const updateTile = async (context: WebPartContext, itemId: any, tileInfo:
         Title: tileInfo.Title,
         Color: tileInfo.Color,
         Link: tileInfo.Link,
-        IconName: tileInfo.Icon,
+        IconName: tileInfo.IconName,
         OpenInNewWindow: tileInfo.OpenNewWin
     }),
     spOptions: ISPHttpClientOptions = {
