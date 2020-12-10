@@ -104,7 +104,7 @@ export const addTile = async (context: WebPartContext, tileInfo: any) =>{
     const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items`,
     body: string = JSON.stringify({
         Title: tileInfo.Title,
-        Color: tileInfo.Color,
+        Color: tileInfo.Color ? tileInfo.Color : "Blue",
         Link: tileInfo.Link,
         IconName: tileInfo.Icon,
         OpenInNewWindow: tileInfo.OpenNewWin
@@ -181,6 +181,7 @@ export const getTile = async (context: WebPartContext, itemId: any) =>{
                 Link: result.Link,
                 IconName: result.IconName,
                 OpenNewWin: result.OpenInNewWindow,
+                Id: result.Id
             }; 
         }
         return tileData;
