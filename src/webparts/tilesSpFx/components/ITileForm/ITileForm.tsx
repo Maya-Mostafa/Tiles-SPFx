@@ -71,23 +71,23 @@ export default function ITileForm (props: ITileFormProps) {
     return(
         <div className={styles.tileForm}>
             <Stack tokens={stackTokens}>
-                <Stack>
-                    <TextField  name="titleField" label="Title" required 
+                <Stack id={props.formField.idField}>
+                    <TextField id="titleField" name="titleField" label="Title" required 
                         value={props.formField.titleField} onChange={props.onChangeFormField} errorMessage={props.errorMsgTitle} />  
-                    <TextField name="linkField" placeholder="https://" label="Link" required errorMessage={props.errorMsgLink}
+                    <TextField id="linkField" name="linkField" placeholder="https://" label="Link" required errorMessage={props.errorMsgLink}
                         value={props.formField.linkField} onChange={props.onChangeFormField}/>  
                     <Dropdown 
-                        placeholder="Select a color"
-                        label="Color" selectedKey={props.colorField ? props.colorField.key : undefined}
+                        placeholder="Select a color" id="colorField"
+                        label="Color" selectedKey={props.formField.colorField ? props.formField.colorField.key : undefined}
                         options={colorOptions} styles={dropdownStyles}
                         onRenderTitle={onRenderColorTitle} onRenderOption={onRenderColorOption}
-                        onChange={props.onChangeColorField} />
-                    <Dropdown
-                        placeholder="Select an icon"
-                        label="Icon" selectedKey={props.iconField ? props.iconField.key : undefined}
+                        onChange={props.onChangeFormField} />
+                      <Dropdown
+                        placeholder="Select an icon" id="iconField"
+                        label="Icon" selectedKey={props.formField.iconField ? props.formField.iconField.key : undefined}
                         options={iconOptions} styles={dropdownStyles}
                         onRenderTitle={onRenderIconTitle} onRenderOption={onRenderIconOption}
-                        onChange={props.onChangeIconField} />
+                        onChange={props.onChangeFormField} />
                         {/* <VirtualizedComboBox
                             label="Icon Name"
                             allowFreeform selectedKey={props.iconField ? props.iconField.key : undefined}
@@ -98,7 +98,8 @@ export default function ITileForm (props: ITileFormProps) {
                             onRenderOption={onRenderIconOption}
                             onChange={props.onChangeIconField}
                         /> */}
-                    <Toggle label="Open in a new window" defaultChecked onText="Yes" offText="No" checked={props.openNewWin} onChange={props.onChangeOpenNewWin} />
+                    <Toggle id="openNewWin" label="Open in a new window" defaultChecked onText="Yes" offText="No" 
+                      checked={props.formField.openNewWin} onChange={props.onChangeFormField} />
                 </Stack>
             </Stack>
         </div>
