@@ -8,11 +8,12 @@ import {Icon} from '@fluentui/react/lib/Icon';
 
 export default function ITile (props: ITileProps) {
   
-  initializeIcons();
+  initializeIcons();  
 
     return (
       <div className={styles.tile +' '+ props.BgColor+ styles.Bg}>
         
+        {/* Tile */}
         <a href={props.Link} target={props.Target} data-interception="off">
           <div>
             <div className={styles.tileIcon}><Icon iconName={props.IconName} /></div>
@@ -20,16 +21,15 @@ export default function ITile (props: ITileProps) {
           </div>
         </a>
         
+        {/* Tile Edit/Delete Options */}
         {props.showEditControls &&
           <div className={styles.iconBtnCntnr}>
             {/* <Icon iconName="Settings" className={styles.settingsTileIcon} />
             <IconPicker buttonClassName={styles.iconBtn} renderOption={'dialog'} onSave = {props.handleIconSave(props.Id)} /> */}
-
             <Icon iconName="Edit" className={styles.settingsTileIcon} onClick={props.handleEdit(props.Id)} />
             <Icon iconName="Delete" className={styles.deleteTileIcon} onClick={props.handleDelete(props.Id)}/>
           </div>
         }
-
       </div>
     );
 }

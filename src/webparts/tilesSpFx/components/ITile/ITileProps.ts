@@ -6,8 +6,10 @@ export interface ITileProps{
     Id: any;
     IconName: string;
     Target: string;
+
     handleIconSave: (itemId: any) => ((tIconName: string)=>void) ;
     handleDelete : any ;
     handleEdit : any ;
+    
     showEditControls: boolean;
 }
