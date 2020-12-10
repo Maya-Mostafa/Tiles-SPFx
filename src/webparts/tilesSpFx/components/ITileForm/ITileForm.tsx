@@ -2,10 +2,15 @@ import * as React from 'react';
 import {ITileFormProps} from './ITileFormProps';
 import styles from '../TilesSPFx.module.scss';
 
-import {Icon, Stack, TextField, Dropdown,IDropdownOption, Toggle, VirtualizedComboBox, IComboBoxOption} from '@fluentui/react';
+import {Stack, TextField, Dropdown,IDropdownOption, Toggle, VirtualizedComboBox, IComboBoxOption} from '@fluentui/react';
 import {getIconNames, getColors} from '../../Services/Styling';
 
+import { initializeIcons } from '@uifabric/icons';
+import {Icon} from '@fluentui/react/lib/Icon';
+
 export default function ITileForm (props: ITileFormProps) {
+
+    initializeIcons();
 
     const stackTokens = { childrenGap: 50 };
     const dropdownStyles = { dropdown: { width: 300 } };
@@ -82,22 +87,25 @@ export default function ITileForm (props: ITileFormProps) {
                         options={colorOptions} styles={dropdownStyles}
                         onRenderTitle={onRenderColorTitle} onRenderOption={onRenderColorOption}
                         onChange={props.onChangeFormField} />
-                      <Dropdown
+                      {/* <Dropdown
                         placeholder="Select an icon" id="iconField"
                         label="Icon" selectedKey={props.formField.iconField ? props.formField.iconField.key : undefined}
                         options={iconOptions} styles={dropdownStyles}
                         onRenderTitle={onRenderIconTitle} onRenderOption={onRenderIconOption}
-                        onChange={props.onChangeFormField} />
-                        {/* <VirtualizedComboBox
-                            label="Icon Name"
-                            allowFreeform selectedKey={props.iconField ? props.iconField.key : undefined}
-                            autoComplete="on"
-                            options={iconOptions}
-                            dropdownMaxWidth={200}
-                            useComboBoxAsMenuWidth
-                            onRenderOption={onRenderIconOption}
-                            onChange={props.onChangeIconField}
-                        /> */}
+                        onChange={props.onChangeFormField} /> */}
+                        <div className={styles.iconDpdCntnr}>
+                          <VirtualizedComboBox id="iconField" className={styles.iconDpd}
+                              label="Icon Name" placeholder="Select or search for an icon"
+                              selectedKey={props.formField.iconField ? props.formField.iconField.key : undefined}
+                              //autoComplete="on" allowFreeform
+                              options={iconOptions}
+                              dropdownMaxWidth={200}
+                              useComboBoxAsMenuWidth
+                              onRenderOption={onRenderIconOption}
+                              onChange={props.onChangeFormField} onKeyUp={props.onChangeFormField}
+                          />
+                          <Icon iconName={props.formField.iconField.text} className={styles.iconDpdIcon}/>
+                        </div>
                     <Toggle id="openNewWin" label="Open in a new window" defaultChecked onText="Yes" offText="No" 
                       checked={props.formField.openNewWin} onChange={props.onChangeFormField} />
                 </Stack>

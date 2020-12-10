@@ -27,13 +27,24 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     });
     const onChangeFormField = React.useCallback(
       (event: any, newValue?: any) => {      
-        setFormField({
-          ...formField,
-          [event.target.id]: typeof newValue === "boolean" ? !!newValue : newValue || ''
-        });
+        if (event.target.id == ""){
+          setFormField({
+            ...formField,
+            iconField : newValue || ''
+          });
+        }else{
+          setFormField({
+            ...formField,
+            [event.target.id]: typeof newValue === "boolean" ? !!newValue : newValue || ''
+          });
+        }
       },
       [formField],
     );
+    const [errorMsgField , setErrorMsgField] = React.useState({
+      titleField: "",
+      linkField: ""
+    });
     const resetFields = () =>{
       setFormField({
         titleField: "",
@@ -43,11 +54,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
         openNewWin: true,
         idField : ""
       });
+      setErrorMsgField({titleField:"", linkField:""});
     };
-    const [errorMsgField , setErrorMsgField] = React.useState({
-      titleField: "",
-      linkField: ""
-    });
     
     const [isNewDialog, setIsNewDialog] = React.useState(true);
     const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
@@ -153,11 +161,13 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     };
     const updateTileItem = () =>{
       handleError(()=>{
+        console.log("formField", formField);
         updateTile(props.context, formField.idField, {
           Title: formField.titleField,
           Link: formField.linkField,
           Color: formField.colorField.text,
-          IconName: formField.iconField.data.icon,
+          // IconName: formField.iconField.data.icon,
+          IconName: formField.iconField.text,
           OpenInNewWindow: formField.openNewWin
         }).then(()=>{
           getTilesData(props.context, props.orderBy).then((results)=>{
