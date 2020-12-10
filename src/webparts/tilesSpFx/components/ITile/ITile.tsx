@@ -26,7 +26,14 @@ export default function ITile (props: ITileProps) {
           <div className={styles.iconBtnCntnr}>
             {/* <Icon iconName="Settings" className={styles.settingsTileIcon} />
             <IconPicker buttonClassName={styles.iconBtn} renderOption={'dialog'} onSave = {props.handleIconSave(props.Id)} /> */}
-            <Icon iconName="Edit" className={styles.settingsTileIcon} onClick={props.handleEdit(props.Id)} />
+            <Icon iconName="Edit" className={styles.settingsTileIcon} 
+              onClick={props.handleEdit({
+                idField: props.Id, 
+                titleField: props.Title, 
+                linkField: props.Link, 
+                colorField: props.BgColor, 
+                iconField: props.IconName, 
+                openNewWin: props.Target })} />
             <Icon iconName="Delete" className={styles.deleteTileIcon} onClick={props.handleDelete(props.Id)}/>
           </div>
         }

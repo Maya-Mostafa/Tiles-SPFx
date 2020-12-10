@@ -9,7 +9,7 @@ import ITile from './ITile/ITile';
 import ITileControls from './ITileControls/ITileControls';
 import ITileForm from './ITileForm/ITileForm';
 
-import {addTile, deleteTile, updateTile, getTile} from '../Services/DataRequests';
+import {addTile, deleteTile, updateTile} from '../Services/DataRequests';
 
 import { useBoolean } from '@uifabric/react-hooks';
 
@@ -138,20 +138,18 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       });
     };
 
-    const handleEdit = (itemId: any)=>{
+    const handleEdit = (tileInfo : any)=>{
       return ()=>{
-        getTile(props.context, itemId).then((result :any)=>{
           setIsNewDialog(false);
           toggleHideDialog();
           setFormField({
-            titleField: result.Title,
-            linkField: result.Link,
-            colorField : {key: result.Color.toLowerCase(), text: result.Color, data: {icon: "CircleFill"}},
-            iconField: {key: result.IconName, text: result.IconName, data: {icon: result.IconName}},
-            openNewWin: result.OpenNewWin,
-            idField : result.Id
+            titleField: tileInfo.titleField,
+            linkField: tileInfo.linkField,
+            colorField : {key: tileInfo.colorField.toLowerCase(), text: tileInfo.colorField, data: {icon: "CircleFill"}},
+            iconField: {key: tileInfo.iconField, text: tileInfo.iconField, data: {icon: tileInfo.iconField}},
+            openNewWin: tileInfo.openNewWin,
+            idField : tileInfo.idField
           });           
-        });
       };
     };
     const updateTileItem = () =>{
