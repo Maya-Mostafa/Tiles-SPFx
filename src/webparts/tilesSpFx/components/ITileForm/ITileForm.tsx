@@ -72,7 +72,7 @@ export default function ITileForm (props: ITileFormProps) {
         </div>
       );
   };
-    
+
     return(
         <div className={styles.tileForm}>
             <Stack tokens={stackTokens}>
@@ -99,10 +99,9 @@ export default function ITileForm (props: ITileFormProps) {
                               selectedKey={props.formField.iconField ? props.formField.iconField.key : undefined}
                               //autoComplete="on" allowFreeform
                               options={iconOptions}
-                              dropdownMaxWidth={200}
-                              useComboBoxAsMenuWidth
+                              dropdownMaxWidth={200} useComboBoxAsMenuWidth
                               onRenderOption={onRenderIconOption}
-                              onChange={props.onChangeFormField} onKeyUp={props.onChangeFormField}
+                              onChange={props.onChangeFormField}
                           />
                           <Icon iconName={props.formField.iconField.text} className={styles.iconDpdIcon}/>
                         </div>

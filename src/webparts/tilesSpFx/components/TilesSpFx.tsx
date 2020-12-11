@@ -26,18 +26,12 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       idField : ""
     });
     const onChangeFormField = React.useCallback(
-      (event: any, newValue?: any) => {      
-        if (event.target.id == ""){
-          setFormField({
-            ...formField,
-            iconField : newValue || ''
-          });
-        }else{
-          setFormField({
-            ...formField,
-            [event.target.id]: typeof newValue === "boolean" ? !!newValue : newValue || ''
-          });
-        }
+      (event: any, newValue?: any) => {   
+        let formFieldVar : string = event.target.id == "" || event.target.id == "iconField-input" ? "iconField" : event.target.id;
+        setFormField({
+          ...formField,
+          [formFieldVar]: typeof newValue === "boolean" ? !!newValue : newValue || ''
+        });
       },
       [formField],
     );
@@ -161,7 +155,6 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     };
     const updateTileItem = () =>{
       handleError(()=>{
-        console.log("formField", formField);
         updateTile(props.context, formField.idField, {
           Title: formField.titleField,
           Link: formField.linkField,
