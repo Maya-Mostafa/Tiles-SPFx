@@ -1,6 +1,6 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { SPPermission } from "@microsoft/sp-page-context";
-import {SPHttpClientResponse, SPHttpClient, ISPHttpClientOptions} from "@microsoft/sp-http";
+import {SPHttpClient, ISPHttpClientOptions} from "@microsoft/sp-http";
 
 const getColorHex = (colorName:string) : string => {
     let colorHex : string;
@@ -49,9 +49,10 @@ const getColorHex = (colorName:string) : string => {
 };
 
 
-export const getTilesData = async (context:WebPartContext, orderBy: string) :Promise <any> => {
-    orderBy = orderBy ? orderBy : 'Title';
-    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items?$orderby=${orderBy} asc`;
+export const getTilesData = async (context:WebPartContext, listTitle: string ,orderBy: string) :Promise <any> => {
+    //orderBy = orderBy ? orderBy : 'Title';
+    //listTitle = listTitle ? listTitle : 'Tiles';
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${listTitle}')/items?$orderby=${orderBy} asc`;
     const _data = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1);
     let tilesData : {}[] = [];
 
@@ -71,14 +72,13 @@ export const getTilesData = async (context:WebPartContext, orderBy: string) :Pro
                 });
             });
         }
-        //console.log(tilesData);
         return tilesData;
     }
 
 };
 
-export const updateIcon = async (context: WebPartContext, itemId:number, iconName:string) =>{
-    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items(${itemId})`;
+export const updateIcon = async (context: WebPartContext, listTitle: string, itemId:number, iconName:string) =>{
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${listTitle}')/items(${itemId})`;
     
     let body: string = JSON.stringify({
         IconName: iconName
@@ -100,8 +100,8 @@ export const updateIcon = async (context: WebPartContext, itemId:number, iconNam
     }
 };
 
-export const addTile = async (context: WebPartContext, tileInfo: any) =>{
-    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items`,
+export const addTile = async (context: WebPartContext, listTitle: string, tileInfo: any) =>{
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${listTitle}')/items`,
     body: string = JSON.stringify({
         Title: tileInfo.Title,
         Color: tileInfo.Color ? tileInfo.Color : "Blue",
@@ -123,8 +123,8 @@ export const addTile = async (context: WebPartContext, tileInfo: any) =>{
     }
 };
 
-export const deleteTile = async (context: WebPartContext, itemId: any) =>{
-    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items(${itemId})`;
+export const deleteTile = async (context: WebPartContext, listTitle: string, itemId: any) =>{
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${listTitle}')/items(${itemId})`;
     let spOptions: ISPHttpClientOptions = {
         headers:{
             Accept: "application/json;odata=nometadata", 
@@ -141,8 +141,8 @@ export const deleteTile = async (context: WebPartContext, itemId: any) =>{
     }
 };
 
-export const updateTile = async (context: WebPartContext, itemId: any, tileInfo: any) =>{
-    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items(${itemId})`,
+export const updateTile = async (context: WebPartContext, listTitle: string, itemId: any, tileInfo: any) =>{
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${listTitle}')/items(${itemId})`,
     body: string = JSON.stringify({
         Title: tileInfo.Title,
         Color: tileInfo.Color,
@@ -167,8 +167,8 @@ export const updateTile = async (context: WebPartContext, itemId: any, tileInfo:
     }
 };
 
-export const getTile = async (context: WebPartContext, itemId: any) =>{
-    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Tiles')/items(${itemId})`,
+export const getTile = async (context: WebPartContext, listTitle:string, itemId: any) =>{
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${listTitle}')/items(${itemId})`,
     _data = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1);
     let tileData : {} = {};
 

@@ -75,15 +75,15 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     };
 
     React.useEffect(()=>{
-      getTilesData(props.context, props.orderBy).then((results)=>{
+      getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
         setTilesData(results);
       });      
     },[tilesData.length]);
 
     const handleIconSave = (itemId: any)=>{
       return (tIconName: string)=>{
-        updateIcon(props.context, itemId, tIconName).then(()=>{
-          getTilesData(props.context, props.orderBy).then((results)=>{
+        updateIcon(props.context, props.tilesList, itemId, tIconName).then(()=>{
+          getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
             setTilesData(results);
           });
         });
@@ -137,8 +137,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           Icon: formField.iconField.data.icon,
           OpenNewWin: formField.openNewWin
         };
-        addTile(props.context, tileInfo).then(()=>{
-          getTilesData(props.context, props.orderBy).then((results)=>{
+        addTile(props.context, props.tilesList, tileInfo).then(()=>{
+          getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
             setTilesData(results);
           });
         });
@@ -146,8 +146,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       });
     };
     const deleteTileItem = () =>{
-      deleteTile(props.context, formField.idField).then(()=>{
-        getTilesData(props.context, props.orderBy).then((results)=>{
+      deleteTile(props.context, props.tilesList, formField.idField).then(()=>{
+        getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
           setTilesData(results);          
         });
       });
@@ -155,7 +155,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     };
     const updateTileItem = () =>{
       handleError(()=>{
-        updateTile(props.context, formField.idField, {
+        updateTile(props.context, props.tilesList, formField.idField, {
           Title: formField.titleField,
           Link: formField.linkField,
           Color: formField.colorField.text,
@@ -163,7 +163,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           IconName: formField.iconField.text,
           OpenInNewWindow: formField.openNewWin
         }).then(()=>{
-          getTilesData(props.context, props.orderBy).then((results)=>{
+          getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
             setTilesData(results);
           });
         });
@@ -175,7 +175,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       <div className={styles.tilesSPFx}>
        
         <div className={styles.tilesCntnr}>
-          <Label>{escape(props.description)}</Label>
+          <Label className={styles.wpTitle}>{escape(props.title)}</Label>
           {tilesData.map((value:any)=>{
             return(
               <>
@@ -196,7 +196,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           })}
         </div>
 
-        <ITileControls context={props.context} 
+        <ITileControls
           toggleHideDialog={handleToggleHideDialog} 
           handleEditChange={handleEditChange} 
         />
