@@ -206,6 +206,11 @@ $peelYellow : #DAA62F;
     }
   }
 
+  .wpTitle{
+    font-size: 20px;
+    margin: 0 0 11px 0;
+    padding: 0;
+  }
   .tileControls{
     display: block;
 
@@ -227,7 +232,7 @@ $peelYellow : #DAA62F;
   
   
   .tilesCntnr{
-    margin: 10px 0 20px 0;
+    
     &:after{
       content: '';
       clear: both;
