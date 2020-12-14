@@ -13,8 +13,9 @@ import TilesSPFx from './components/TilesSPFx';
 import { ITilesSPFxProps } from './components/ITilesSPFxProps';
 
 export interface ITilesSpFxWebPartProps {
-  description: string;
+  title: string;
   orderBy: string;
+  tilesList: string;
 }
 
 export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWebPartProps> {
@@ -23,9 +24,10 @@ export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWe
     const element: React.ReactElement<ITilesSPFxProps> = React.createElement(
       TilesSPFx,
       {
-        description: this.properties.description,
+        title: this.properties.title,
         context: this.context,
         orderBy: this.properties.orderBy,
+        tilesList: this.properties.tilesList
       }
     );
 
@@ -51,13 +53,16 @@ export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWe
             {
               //groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: 'Tiles Title'
+                PropertyPaneTextField('title', {
+                  label: 'Title'
+                }),
+                PropertyPaneTextField('tilesList', {
+                  label: 'List name'
                 }),
                 PropertyPaneChoiceGroup('orderBy', {
-                  label: 'Order By',
+                  label: 'Order by',
                   options: [
-                   { key: 'Title', text: 'Title', checked: true },
+                   { key: 'Title', text: 'Title'},
                    { key: 'Order', text: 'Order' },
                  ]
                }),

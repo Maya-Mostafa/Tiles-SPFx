@@ -21,7 +21,10 @@
     "description": { "default": "Tiles SPFx description" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "Tiles SPFx"
+      "description": "Tiles SPFx",
+      "title" : "",
+      "tilesList" : "Tiles",
+      "orderBy" : "Title"
     }
   }]
 }
