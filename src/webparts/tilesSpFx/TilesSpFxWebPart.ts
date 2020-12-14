@@ -116,7 +116,8 @@ export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWe
                 // }),
                 PropertyPaneDropdown('tilesList', {
                   label: 'List name',
-                  options: this.lists
+                  options: this.lists,
+                  selectedKey: 'Tiles'
                 }),
                 PropertyPaneChoiceGroup('orderBy', {
                   label: 'Order by',
