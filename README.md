@@ -48,6 +48,12 @@ This extension illustrates the following concepts:
 ``npm i @fluentui/react-icons``<br/>
 ``npm i react-icons``<br/> (not used)
 
+```
+npm install react-beautiful-dnd
+npm install @types/react-beautiful-dnd
+```
+
+
 
 
 ## References
@@ -57,3 +63,4 @@ This extension illustrates the following concepts:
 - [https://www.npmjs.com/package/react-icons] React Icons
 - [https://www.npmjs.com/package/@fluentui/react-icons] Fluent React Icons
 - [https://letslearnoffice365.wordpress.com/2019/02/02/how-to-check-permissions-for-current-user-sharepoint-online-spfx/] SPFx Check User Permissions
+- [https://blog.logrocket.com/drag-and-drop-in-react/] React Drag and Drop

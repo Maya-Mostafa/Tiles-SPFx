@@ -13,6 +13,8 @@ import {addTile, deleteTile, updateTile} from '../Services/DataRequests';
 
 import { useBoolean } from '@uifabric/react-hooks';
 
+import {DragDropContext} from 'react-beautiful-dnd';
+
 export default function TilesSPFx (props: ITilesSPFxProps) {
 
     const [tilesData, setTilesData] = React.useState([]);
@@ -174,8 +176,10 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     return (
       <div className={styles.tilesSPFx}>
        
+        <Label className={styles.wpTitle}>{escape(props.title)}</Label>
+        
         <div className={styles.tilesCntnr}>
-          <Label className={styles.wpTitle}>{escape(props.title)}</Label>
+
           {tilesData.map((value:any)=>{
             return(
               <>
