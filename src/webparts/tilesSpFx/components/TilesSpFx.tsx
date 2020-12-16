@@ -184,8 +184,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
         <DragDropContext onDragEnd={onDragEnd}>
           <div className={styles.tilesCntnr}>
 
-
-          <Droppable droppableId="pgTiles">
+          <Droppable droppableId="pgTiles" direction="horizontal">
             {(provided)=>(
               <div ref={provided.innerRef}                
                 {...provided.droppableProps}
