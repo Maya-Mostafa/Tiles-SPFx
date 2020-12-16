@@ -64,3 +64,9 @@ npm install @types/react-beautiful-dnd
 - [https://www.npmjs.com/package/@fluentui/react-icons] Fluent React Icons
 - [https://letslearnoffice365.wordpress.com/2019/02/02/how-to-check-permissions-for-current-user-sharepoint-online-spfx/] SPFx Check User Permissions
 - [https://blog.logrocket.com/drag-and-drop-in-react/] React Drag and Drop
+- [https://vscodethemes.com/trending?page=3] VS code themes
+- [https://techcommunity.microsoft.com/t5/sharepoint/near-complete-list-of-sharepoint-list-types-and-templates-a-k-a/m-p/220550] SP.BaseType & SP.ListTemplateType
+- [https://docs.microsoft.com/en-us/previous-versions/office/sharepoint-visio/jj246925(v=office.15)] SP.BaseType enumeration
+- [https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/guidance/validate-web-part-property-values] Validate web part property values
+- [https://github.com/atlassian/react-beautiful-dnd] React Drag & Drop "react-beautiful-dnd"
+- [https://egghead.io/courses/beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd] react-beautiful-dnd Course
