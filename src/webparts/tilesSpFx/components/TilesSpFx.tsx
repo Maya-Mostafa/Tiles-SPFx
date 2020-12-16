@@ -13,7 +13,7 @@ import {addTile, deleteTile, updateTile} from '../Services/DataRequests';
 
 import { useBoolean } from '@uifabric/react-hooks';
 
-import {DragDropContext} from 'react-beautiful-dnd';
+import {DragDropContext, Droppable} from 'react-beautiful-dnd';
 
 export default function TilesSPFx (props: ITilesSPFxProps) {
 
@@ -173,32 +173,51 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       });
     };
 
+    const onDragEnd = () =>{
+
+    };
+
     return (
       <div className={styles.tilesSPFx}>
-       
         <Label className={styles.wpTitle}>{escape(props.title)}</Label>
         
-        <div className={styles.tilesCntnr}>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div className={styles.tilesCntnr}>
 
-          {tilesData.map((value:any)=>{
-            return(
-              <>
-              <ITile key={value.Id}
-                  BgColor={value.BgColor} 
-                  Id={value.Id}
-                  Link={value.Link}
-                  Title={value.Title}
-                  IconName={value.IconName}
-                  Target={value.Target}
-                  handleIconSave={handleIconSave}
-                  handleDelete={handleDelete}
-                  handleEdit={handleEdit}
-                  showEditControls={showEditControls}
-                  />              
-              </>
-            );
-          })}
-        </div>
+
+          <Droppable droppableId="pgTiles">
+            {(provided)=>(
+              <div ref={provided.innerRef}                
+                {...provided.droppableProps}
+              >
+
+                {tilesData.map((value:any, index)=>{
+                  return(
+                    <>
+                    <ITile key={value.Id} index={index}
+                        BgColor={value.BgColor} 
+                        Id={value.Id}
+                        Link={value.Link}
+                        Title={value.Title}
+                        IconName={value.IconName}
+                        Target={value.Target}
+                        handleIconSave={handleIconSave}
+                        handleDelete={handleDelete}
+                        handleEdit={handleEdit}
+                        showEditControls={showEditControls}
+                        />              
+                    </>
+                  );
+                })}
+
+                {provided.placeholder}
+              </div>
+            )}
+            
+          </Droppable>
+
+          </div>
+        </DragDropContext>
 
         <ITileControls
           toggleHideDialog={handleToggleHideDialog} 

@@ -12,4 +12,6 @@ export interface ITileProps{
     handleEdit : any ;
     
     showEditControls: boolean;
+
+    index: any;
 }
