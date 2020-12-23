@@ -13,12 +13,12 @@ export default function ITile (props: ITileProps) {
 
     return (
 
-      <Draggable draggableId={props.Id.toString()} index={props.index}>
-        {(provided)=>(
+      //<Draggable draggableId={props.Id.toString()} index={props.index}>
+        //{(provided)=>(
           <div className={styles.tile +' '+ props.BgColor+ styles.Bg}
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
+            // ref={provided.innerRef}
+            // {...provided.draggableProps}
+            // {...provided.dragHandleProps}
           >
         
           {/* Tile */}
@@ -46,8 +46,8 @@ export default function ITile (props: ITileProps) {
             </div>
           }
         </div>
-        )}
-      </Draggable>
+        //)}
+      //</Draggable>
 
 
       

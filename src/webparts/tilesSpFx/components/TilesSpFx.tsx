@@ -181,14 +181,14 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       <div className={styles.tilesSPFx}>
         <Label className={styles.wpTitle}>{escape(props.title)}</Label>
         
-        <DragDropContext onDragEnd={onDragEnd}>
+        {/* <DragDropContext onDragEnd={onDragEnd}> */}
           <div className={styles.tilesCntnr}>
 
-          <Droppable droppableId="pgTiles" direction="horizontal">
+          {/* <Droppable droppableId="pgTiles" direction="horizontal">
             {(provided)=>(
               <div ref={provided.innerRef}                
                 {...provided.droppableProps}
-              >
+              > */}
 
                 {tilesData.map((value:any, index)=>{
                   return(
@@ -209,14 +209,14 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
                   );
                 })}
 
-                {provided.placeholder}
+                {/* {provided.placeholder}
               </div>
             )}
             
-          </Droppable>
+          </Droppable> */}
 
           </div>
-        </DragDropContext>
+        {/* </DragDropContext> */}
 
         <ITileControls
           toggleHideDialog={handleToggleHideDialog} 
