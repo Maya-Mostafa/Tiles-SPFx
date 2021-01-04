@@ -2,11 +2,15 @@ import * as React from 'react';
 import {ITileFormProps} from './ITileFormProps';
 import styles from '../TilesSPFx.module.scss';
 
-import {Stack, TextField, Dropdown,IDropdownOption, Toggle, VirtualizedComboBox, IComboBoxOption} from '@fluentui/react';
+import {Stack, TextField, Dropdown,IDropdownOption, Toggle, VirtualizedComboBox, IComboBoxOption, ChoiceGroup, IChoiceGroupOption, PrimaryButton} from '@fluentui/react';
 import {getIconNames, getColors} from '../../Services/Styling';
 
 import { initializeIcons } from '@uifabric/icons';
 import {Icon} from '@fluentui/react/lib/Icon';
+import { Label } from 'office-ui-fabric-react';
+
+import { FilePicker, IFilePickerResult } from '@pnp/spfx-controls-react/lib/FilePicker';
+import { IconPicker } from '@pnp/spfx-controls-react/lib/IconPicker';
 
 export default function ITileForm (props: ITileFormProps) {
 
@@ -73,6 +77,18 @@ export default function ITileForm (props: ITileFormProps) {
       );
   };
 
+  const radioOptions: IChoiceGroupOption[] = [
+    // { key: 'AutoSelected', text: 'Auto-selected' },
+    { key: 'Icon', text: 'Icon', name:'globe' },
+    { key: 'CustomImage', text: 'Custom Image', name:'picturefill' },
+  ];
+  const [selectedKey, setSelectedKey] = React.useState<string>('Icon');
+  const [selectedThumbnail, setSelectedThumbnail] = React.useState<string>('globe');
+  const onRadioChange = React.useCallback((ev: React.SyntheticEvent<HTMLElement>, option: IChoiceGroupOption) => {
+    setSelectedKey(option.key);
+    setSelectedThumbnail(option.name);
+  }, []);
+
     return(
         <div className={styles.tileForm}>
             <Stack tokens={stackTokens}>
@@ -107,6 +123,22 @@ export default function ITileForm (props: ITileFormProps) {
                         </div>
                     <Toggle id="openNewWin" label="Open in a new window" defaultChecked onText="Yes" offText="No" 
                       checked={props.formField.openNewWin} onChange={props.onChangeFormField} />
+                    
+                    <ChoiceGroup selectedKey={selectedKey} options={radioOptions} onChange={onRadioChange} label="Thumbnail" />
+                    <Icon iconName={selectedThumbnail} />
+                    {/* <PrimaryButton text="Change" /> */}
+
+                    {/* <FilePicker context={props.context}
+                      accepts= {[".gif", ".jpg", ".jpeg", ".bmp", ".dib", ".tif", ".tiff", ".ico", ".png", ".jxr", ".svg"]}
+                      buttonIcon="FileImage"
+                      onSave={(filePickerResult: IFilePickerResult) => { setSelectedThumbnail(filePickerResult); }}
+                      //onChanged={(filePickerResult: IFilePickerResult) => { this.setState({filePickerResult }) }}
+                    /> */}
+
+                    <IconPicker buttonLabel={'Icon'}
+                      //onChange={(iconName: string) => { setSelectedThumbnail({icon: iconName}); }}
+                      onSave={(iconName: string) => { setSelectedThumbnail(iconName); }} />
+
                 </Stack>
             </Stack>
         </div>

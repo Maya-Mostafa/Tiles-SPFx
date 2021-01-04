@@ -230,7 +230,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           onDismiss={toggleHideDialog}
           
           closeButtonAriaLabel="Close">
-          <ITileForm 
+          <ITileForm context={props.context}
             formField={formField} onChangeFormField={onChangeFormField}
             errorMsgField={errorMsgField}/>
             {isNewDialog 
@@ -267,6 +267,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
             </DialogFooter>
         </Dialog>
 
+
+        
       </div>
     );
 }
