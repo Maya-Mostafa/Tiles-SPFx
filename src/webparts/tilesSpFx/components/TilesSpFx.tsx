@@ -3,7 +3,7 @@ import styles from './TilesSPFx.module.scss';
 import { ITilesSPFxProps } from './ITilesSPFxProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 
-import {Label, Dialog, DialogType, DialogFooter, PrimaryButton, DefaultButton} from '@fluentui/react';
+import {Label, Dialog, DialogType, DialogFooter, PrimaryButton, DefaultButton, Panel} from '@fluentui/react';
 import {getTilesData, updateIcon} from '../Services/DataRequests';
 import ITile from './ITile/ITile';
 import ITileControls from './ITileControls/ITileControls';
@@ -54,7 +54,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     };
     
     const [isNewDialog, setIsNewDialog] = React.useState(true);
-    const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
+    const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(false);
     const handleToggleHideDialog = () => {
       resetFields();
       setIsNewDialog(true); 
@@ -223,7 +223,24 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           handleEditChange={handleEditChange} 
         />
 
-        <Dialog
+        <Panel
+          headerText="Tile Properties"
+          isBlocking={false}
+          isOpen={hideDialog}
+          onDismiss={toggleHideDialog}
+          
+          closeButtonAriaLabel="Close">
+          <ITileForm 
+            formField={formField} onChangeFormField={onChangeFormField}
+            errorMsgField={errorMsgField}/>
+            {isNewDialog 
+                ? <PrimaryButton onClick={addTileItem} text="Save" />
+                : <PrimaryButton onClick={updateTileItem} text="Update" />
+            }
+            <DefaultButton className={styles.marginL10} onClick={toggleHideDialog} text="Cancel" />
+        </Panel>
+
+        {/* <Dialog
             hidden={hideDialog}
             onDismiss={toggleHideDialog} isBlocking={true}
             dialogContentProps={dialogContentProps}>
@@ -237,7 +254,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
                 }
                 <DefaultButton onClick={toggleHideDialog} text="Cancel" />
             </DialogFooter>
-        </Dialog>
+        </Dialog> */}
 
         <Dialog
             hidden={hideDeleteDialog}
