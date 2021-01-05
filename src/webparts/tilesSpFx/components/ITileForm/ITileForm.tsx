@@ -9,8 +9,8 @@ import { initializeIcons } from '@uifabric/icons';
 import {Icon} from '@fluentui/react/lib/Icon';
 import { Label } from 'office-ui-fabric-react';
 
-// import { FilePicker, IFilePickerResult } from '@pnp/spfx-controls-react/lib/FilePicker';
-// import { IconPicker } from '@pnp/spfx-controls-react/lib/IconPicker';
+import { FilePicker, IFilePickerResult } from '@pnp/spfx-controls-react/lib/FilePicker';
+import { IconPicker } from '@pnp/spfx-controls-react/lib/IconPicker';
 
 export default function ITileForm (props: ITileFormProps) {
 
@@ -125,18 +125,18 @@ export default function ITileForm (props: ITileFormProps) {
                     <Toggle id="openNewWin" label="Open in a new window" defaultChecked onText="Yes" offText="No" 
                       checked={props.formField.openNewWin} onChange={props.onChangeFormField} />
                     
-                    {/* <ChoiceGroup selectedKey={selectedKey} options={radioOptions} onChange={onRadioChange} label="Thumbnail" />
-                    <Icon iconName={selectedThumbnail} /> */}
+                    <ChoiceGroup selectedKey={selectedKey} options={radioOptions} onChange={onRadioChange} label="Thumbnail" />
+                    <Icon iconName={selectedThumbnail} />
                     {/* <PrimaryButton text="Change" /> */}
 
-                    {/* <FilePicker context={props.context}
+                    <FilePicker context={props.context}
                       accepts= {[".gif", ".jpg", ".jpeg", ".bmp", ".dib", ".tif", ".tiff", ".ico", ".png", ".jxr", ".svg"]}
                       buttonIcon="FileImage"
                       onSave={(filePickerResult: IFilePickerResult) => { setSelectedImg({filePickerResult}); }}
                     />
 
                     <IconPicker buttonLabel={'Icon'}
-                      onSave={(iconName: string) => { setSelectedThumbnail(iconName); }} /> */}
+                      onSave={(iconName: string) => { setSelectedThumbnail(iconName); }} />
 
                 </Stack>
             </Stack>
