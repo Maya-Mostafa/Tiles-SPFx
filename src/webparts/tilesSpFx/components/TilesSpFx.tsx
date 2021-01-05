@@ -54,7 +54,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     };
     
     const [isNewDialog, setIsNewDialog] = React.useState(true);
-    const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(false);
+    const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(true);
     const handleToggleHideDialog = () => {
       resetFields();
       setIsNewDialog(true); 
@@ -223,7 +223,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           handleEditChange={handleEditChange} 
         />
 
-        <Panel
+        {/* <Panel
           headerText="Tile Properties"
           isBlocking={false}
           isOpen={hideDialog}
@@ -238,13 +238,13 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
                 : <PrimaryButton onClick={updateTileItem} text="Update" />
             }
             <DefaultButton className={styles.marginL10} onClick={toggleHideDialog} text="Cancel" />
-        </Panel>
+        </Panel> */}
 
-        {/* <Dialog
+        <Dialog
             hidden={hideDialog}
             onDismiss={toggleHideDialog} isBlocking={true}
             dialogContentProps={dialogContentProps}>
-            <ITileForm 
+            <ITileForm context={props.context}
               formField={formField} onChangeFormField={onChangeFormField}
               errorMsgField={errorMsgField}/>
             <DialogFooter>
@@ -254,7 +254,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
                 }
                 <DefaultButton onClick={toggleHideDialog} text="Cancel" />
             </DialogFooter>
-        </Dialog> */}
+        </Dialog>
 
         <Dialog
             hidden={hideDeleteDialog}
