@@ -6,6 +6,7 @@ import { initializeIcons } from '@uifabric/icons';
 import {Icon} from '@fluentui/react/lib/Icon';
 
 import {isFont} from '../../Services/Styling';
+import Truncate from 'react-truncate';
 
 export default function ITile (props: ITileProps) {
   
@@ -17,7 +18,11 @@ export default function ITile (props: ITileProps) {
       {/* Tile */}
       <a href={props.Link} target={props.Target} data-interception="off">
         <div>
-          <div className={styles.tileText}>{props.Title}</div>
+          <div className={styles.tileText} title={props.Title}>
+            <Truncate lines={5} ellipsis={<span>...</span>}>
+              {props.Title}
+            </Truncate>
+          </div>
           <div className={styles.tileIcon}>                
             {isFont(props.IconName)
               ? <Icon iconName={props.IconName} /> 

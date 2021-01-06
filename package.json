@@ -22,11 +22,13 @@
     "@microsoft/sp-webpart-base": "1.11.0",
     "@pnp/spfx-controls-react": "2.3.0",
     "@types/react-beautiful-dnd": "^13.0.0",
+    "@types/react-truncate": "^2.3.3",
     "office-ui-fabric-react": "6.214.0",
     "react": "16.8.5",
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "16.8.5",
-    "react-icons": "^4.1.0"
+    "react-icons": "^4.1.0",
+    "react-truncate": "^2.4.0"
   },
   "devDependencies": {
     "@types/react": "16.8.8",
