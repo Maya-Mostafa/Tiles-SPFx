@@ -5,9 +5,12 @@ import { escape } from '@microsoft/sp-lodash-subset';
 
 import {Label, Dialog, DialogType, DialogFooter, PrimaryButton, DefaultButton, Panel, IChoiceGroupOption} from '@fluentui/react';
 import {getTilesData, updateIcon} from '../Services/DataRequests';
+import {isFont} from '../Services/Styling';
 import ITile from './ITile/ITile';
 import ITileControls from './ITileControls/ITileControls';
 import ITileForm from './ITileForm/ITileForm';
+
+import { IFilePickerResult } from '@pnp/spfx-controls-react/lib/FilePicker';
 
 import {addTile, deleteTile, updateTile} from '../Services/DataRequests';
 
@@ -18,21 +21,26 @@ import {DragDropContext, Droppable} from 'react-beautiful-dnd';
 export default function TilesSPFx (props: ITilesSPFxProps) {
 
     const [tilesData, setTilesData] = React.useState([]);
+
+    const [selectedIconKey, setSelectedIconKey] = React.useState<string>('Icon');
+    const onRadioChange = React.useCallback((ev: React.SyntheticEvent<HTMLElement>, option: IChoiceGroupOption) => {
+      setSelectedIconKey(option.key);
+    }, []);
+    const [selectedIcon, setSelectedIcon] = React.useState({font: 'globe', img: null});
+    // const [selectedIcon, setSelectedIcon] = React.useState({auto: IconType.font, font: null, img: null});
   
     const [formField, setFormField] = React.useState({
       titleField: "",
       linkField: "",
       colorField: {key: "", text: "", data: {icon: ""}},
-      iconField : {key : "" , text:"", data: {icon: ""}},
       openNewWin: true,
       idField : ""
     });
     const onChangeFormField = React.useCallback(
       (event: any, newValue?: any) => {   
-        let formFieldVar : string = event.target.id == "" || event.target.id == "iconField-input" ? "iconField" : event.target.id;
         setFormField({
           ...formField,
-          [formFieldVar]: typeof newValue === "boolean" ? !!newValue : newValue || ''
+          [event.target.id]: typeof newValue === "boolean" ? !!newValue : newValue || ''
         });
       },
       [formField],
@@ -46,24 +54,22 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
         titleField: "",
         linkField: "",
         colorField: {key: "", text: "", data: {icon: ""}},
-        iconField : {key : "" , text:"", data: {icon: ""}},
         openNewWin: true,
         idField : ""
       });
+      setSelectedIconKey('Icon');
+      setSelectedIcon({font: 'globe', img: null});
       setErrorMsgField({titleField:"", linkField:""});
     };
     
-    const [isNewDialog, setIsNewDialog] = React.useState(true);
-    const [hideDialog, { toggle: toggleHideDialog }] = useBoolean(false);
+    const [isNewForm, setIsNewForm] = React.useState(true);
+    const [isOpenPanel, { setTrue: openPanel, setFalse: dismissPanel }] = useBoolean(false);
     const handleToggleHideDialog = () => {
       resetFields();
-      setIsNewDialog(true); 
-      toggleHideDialog();
+      setIsNewForm(true); 
+      openPanel();
     };
-    const dialogContentProps = {
-      type: DialogType.close,
-      title: isNewDialog ? "Add a new Tile" : "Update Tile"
-    }; 
+    
 
     const deleteDialogContentProps = {
       type: DialogType.close,
@@ -117,16 +123,28 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     };
     const handleEdit = (tileInfo : any)=>{
       return ()=>{
-          setIsNewDialog(false);
-          toggleHideDialog();
+          setIsNewForm(false);
+          openPanel();
           setFormField({
             titleField: tileInfo.titleField,
             linkField: tileInfo.linkField,
             colorField : {key: tileInfo.colorField.toLowerCase(), text: tileInfo.colorField, data: {icon: "CircleFill"}},
-            iconField: {key: tileInfo.iconField, text: tileInfo.iconField, data: {icon: tileInfo.iconField}},
             openNewWin: tileInfo.openNewWin,
             idField : tileInfo.idField
-          });           
+          });   
+          if (isFont(tileInfo.iconField)){
+            setSelectedIconKey('Icon');
+            setSelectedIcon({
+              ...selectedIcon,
+              ['font']: tileInfo.iconField
+            });
+          }else{
+            setSelectedIconKey('Image');
+            setSelectedIcon({
+              ...selectedIcon,
+              ['img']: tileInfo.iconField
+            });
+          }
       };
     };
 
@@ -136,7 +154,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           Title: formField.titleField,
           Link: formField.linkField,
           Color: formField.colorField.text,
-          Icon: formField.iconField.data.icon,
+          Icon: selectedIconKey == 'Icon' ? selectedIcon.font : (selectedIcon.img ? selectedIcon.img : 'picturefill'),
           OpenNewWin: formField.openNewWin
         };
         addTile(props.context, props.tilesList, tileInfo).then(()=>{
@@ -144,7 +162,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
             setTilesData(results);
           });
         });
-        toggleHideDialog();
+        dismissPanel();
       });
     };
     const deleteTileItem = () =>{
@@ -161,15 +179,14 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           Title: formField.titleField,
           Link: formField.linkField,
           Color: formField.colorField.text,
-          // IconName: formField.iconField.data.icon,
-          IconName: formField.iconField.text,
+          IconName: selectedIconKey == 'Icon' ? selectedIcon.font : (selectedIcon.img ? selectedIcon.img : 'picturefill'),
           OpenInNewWindow: formField.openNewWin
         }).then(()=>{
           getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
             setTilesData(results);
           });
         });
-        toggleHideDialog();
+        dismissPanel();
       });
     };
 
@@ -177,11 +194,13 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
 
     };
 
-    const [selectedKey, setSelectedKey] = React.useState<string>('Auto');
-    const onRadioChange = React.useCallback((ev: React.SyntheticEvent<HTMLElement>, option: IChoiceGroupOption) => {
-      setSelectedKey(option.key);
-      //setSelectedThumbnail(option.name);
-    }, []);
+    
+    const onSaveIcon = (iconName: string) => { 
+      setSelectedIcon({ ...selectedIcon, ['font']: iconName }); 
+    };
+    const onSaveImg = (filePickerResult: IFilePickerResult) => {
+      setSelectedIcon({ ...selectedIcon, ['img']: filePickerResult.fileAbsoluteUrl }); 
+    };
 
     return (
       <div className={styles.tilesSPFx}>
@@ -232,38 +251,22 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
         <Panel
           headerText="Tile Properties"
           isBlocking={false}
-          isOpen={hideDialog}
-          onDismiss={toggleHideDialog}
-          
+          isOpen={isOpenPanel}
+          onDismiss={dismissPanel}
           closeButtonAriaLabel="Close">
           <ITileForm context={props.context}
             formField={formField} onChangeFormField={onChangeFormField}
             errorMsgField={errorMsgField} 
-            selectedKey={selectedKey} onRadioChange={onRadioChange}/>
+            selectedIconKey={selectedIconKey} onRadioChange={onRadioChange}
+            selectedIcon={selectedIcon} onSaveIcon={onSaveIcon} onSaveImg={onSaveImg}/>
             <div className={styles.panelBtns}>
-              {isNewDialog 
+              {isNewForm 
                   ? <PrimaryButton onClick={addTileItem} text="Save" />
                   : <PrimaryButton onClick={updateTileItem} text="Update" />
               }
-              <DefaultButton className={styles.marginL10} onClick={toggleHideDialog} text="Cancel" />
+              <DefaultButton className={styles.marginL10} onClick={dismissPanel} text="Cancel" />
             </div>
         </Panel>
-
-        {/* <Dialog
-            hidden={hideDialog}
-            onDismiss={toggleHideDialog} isBlocking={true}
-            dialogContentProps={dialogContentProps}>
-            <ITileForm 
-              formField={formField} onChangeFormField={onChangeFormField}
-              errorMsgField={errorMsgField}/>
-            <DialogFooter>
-                {isNewDialog 
-                    ? <PrimaryButton onClick={addTileItem} text="Save" />
-                    : <PrimaryButton onClick={updateTileItem} text="Update" />
-                }
-                <DefaultButton onClick={toggleHideDialog} text="Cancel" />
-            </DialogFooter>
-        </Dialog> */}
 
         <Dialog
             hidden={hideDeleteDialog}
@@ -275,8 +278,6 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
                 <DefaultButton onClick={toggleHideDeleteDialog} text="No" />
             </DialogFooter>
         </Dialog>
-
-
         
       </div>
     );

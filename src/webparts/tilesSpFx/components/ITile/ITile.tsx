@@ -2,10 +2,11 @@ import * as React from 'react';
 import styles from '../TilesSPFx.module.scss';
 import {ITileProps} from './ITileProps';
 
-import { IconPicker } from '@pnp/spfx-controls-react/lib/IconPicker';
 import { initializeIcons } from '@uifabric/icons';
 import {Icon} from '@fluentui/react/lib/Icon';
 import {Draggable} from 'react-beautiful-dnd';
+
+import {isFont} from '../../Services/Styling';
 
 export default function ITile (props: ITileProps) {
   
@@ -24,7 +25,12 @@ export default function ITile (props: ITileProps) {
           {/* Tile */}
           <a href={props.Link} target={props.Target} data-interception="off">
             <div>
-              <div className={styles.tileIcon}><Icon iconName={props.IconName} /></div>
+              <div className={styles.tileIcon}>                
+                {isFont(props.IconName)
+                  ? <Icon iconName={props.IconName} /> 
+                  : <img src={props.IconName} height="40px" />                 
+                }
+              </div>
               <div className={styles.tileText}>{props.Title}</div>
             </div>
           </a>
@@ -32,8 +38,6 @@ export default function ITile (props: ITileProps) {
           {/* Tile Edit/Delete Options */}
           {props.showEditControls &&
             <div className={styles.iconBtnCntnr}>
-              {/* <Icon iconName="Settings" className={styles.settingsTileIcon} />
-              <IconPicker buttonClassName={styles.iconBtn} renderOption={'dialog'} onSave = {props.handleIconSave(props.Id)} /> */}
               <Icon iconName="Edit" className={styles.settingsTileIcon} 
                 onClick={props.handleEdit({
                   idField: props.Id, 

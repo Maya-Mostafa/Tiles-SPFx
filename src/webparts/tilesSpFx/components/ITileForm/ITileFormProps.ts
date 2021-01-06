@@ -7,6 +7,9 @@ export interface ITileFormProps{
     
     context: WebPartContext;
 
-    selectedKey: any;
+    selectedIconKey: any;
     onRadioChange: any;
+    selectedIcon: any;
+    onSaveIcon: any;
+    onSaveImg: any;
 }
