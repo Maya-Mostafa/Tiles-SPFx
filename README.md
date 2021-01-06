@@ -53,7 +53,10 @@ npm install react-beautiful-dnd
 npm install @types/react-beautiful-dnd
 ```
 
-
+## Notes
+In order to pull from different branch:
+File->Preferences->Settings->User (Tab)-> Extentions ->git-> Autofeatch(set checkbox to true)
+Now you will able to see remote branches in source control branches options
 
 
 ## References
@@ -70,3 +73,5 @@ npm install @types/react-beautiful-dnd
 - [https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/guidance/validate-web-part-property-values] Validate web part property values
 - [https://github.com/atlassian/react-beautiful-dnd] React Drag & Drop "react-beautiful-dnd"
 - [https://egghead.io/courses/beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd] react-beautiful-dnd Course
+- [https://stackoverflow.com/questions/42142490/how-to-pull-specific-remote-into-current-branch-in-vs-code] Git pull from another branch VS Code
+- [https://www.npmjs.com/package/react-truncate] React Truncate for text trimming with ellipsis
