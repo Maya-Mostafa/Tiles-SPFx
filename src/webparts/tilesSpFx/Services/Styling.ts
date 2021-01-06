@@ -2819,4 +2819,7 @@ export const getColors = () : {}[] =>{
 
     return colors;
 };
-   
+
+export const isFont = (icon: string) : boolean =>{
+    return (icon.indexOf('https://') == -1 && icon.indexOf('http://') == -1);
+};
