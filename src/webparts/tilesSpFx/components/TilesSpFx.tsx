@@ -3,7 +3,7 @@ import styles from './TilesSPFx.module.scss';
 import { ITilesSPFxProps } from './ITilesSPFxProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 
-import {Label, Dialog, DialogType, DialogFooter, PrimaryButton, DefaultButton, Panel} from '@fluentui/react';
+import {Label, Dialog, DialogType, DialogFooter, PrimaryButton, DefaultButton, Panel, IChoiceGroupOption} from '@fluentui/react';
 import {getTilesData, updateIcon} from '../Services/DataRequests';
 import ITile from './ITile/ITile';
 import ITileControls from './ITileControls/ITileControls';
@@ -177,6 +177,12 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
 
     };
 
+    const [selectedKey, setSelectedKey] = React.useState<string>('Auto');
+    const onRadioChange = React.useCallback((ev: React.SyntheticEvent<HTMLElement>, option: IChoiceGroupOption) => {
+      setSelectedKey(option.key);
+      //setSelectedThumbnail(option.name);
+    }, []);
+
     return (
       <div className={styles.tilesSPFx}>
         <Label className={styles.wpTitle}>{escape(props.title)}</Label>
@@ -232,12 +238,15 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           closeButtonAriaLabel="Close">
           <ITileForm context={props.context}
             formField={formField} onChangeFormField={onChangeFormField}
-            errorMsgField={errorMsgField}/>
-            {isNewDialog 
-                ? <PrimaryButton onClick={addTileItem} text="Save" />
-                : <PrimaryButton onClick={updateTileItem} text="Update" />
-            }
-            <DefaultButton className={styles.marginL10} onClick={toggleHideDialog} text="Cancel" />
+            errorMsgField={errorMsgField} 
+            selectedKey={selectedKey} onRadioChange={onRadioChange}/>
+            <div className={styles.panelBtns}>
+              {isNewDialog 
+                  ? <PrimaryButton onClick={addTileItem} text="Save" />
+                  : <PrimaryButton onClick={updateTileItem} text="Update" />
+              }
+              <DefaultButton className={styles.marginL10} onClick={toggleHideDialog} text="Cancel" />
+            </div>
         </Panel>
 
         {/* <Dialog

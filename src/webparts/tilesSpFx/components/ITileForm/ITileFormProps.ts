@@ -4,5 +4,9 @@ export interface ITileFormProps{
     formField:any;
     onChangeFormField: any;
     errorMsgField: any;
+    
     context: WebPartContext;
+
+    selectedKey: any;
+    onRadioChange: any;
 }
