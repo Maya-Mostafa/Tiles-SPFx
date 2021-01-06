@@ -145,7 +145,23 @@ $peelYellow : #DAA62F;
       left: 9px;
     }
     
+  }  
+  .panelIcon, .panelFileType i{
+    font-size: 40px;
+    border-radius: 3px;
+    margin: 20px 0;
+    height: 40px;
   }
+  .panelImg{
+    margin: 20px 0;
+    height: 40px;
+  }
+ 
+}
+
+.panelBtns{
+  position: absolute;
+  bottom: 20px;
 }
 
 .tilesSPFx {
