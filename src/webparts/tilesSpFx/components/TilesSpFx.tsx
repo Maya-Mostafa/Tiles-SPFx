@@ -4,19 +4,15 @@ import { ITilesSPFxProps } from './ITilesSPFxProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 
 import {Label, Dialog, DialogType, DialogFooter, PrimaryButton, DefaultButton, Panel, IChoiceGroupOption} from '@fluentui/react';
-import {getTilesData, updateIcon} from '../Services/DataRequests';
-import {isFont} from '../Services/Styling';
+import { IFilePickerResult } from '@pnp/spfx-controls-react/lib/FilePicker';
+import { useBoolean } from '@uifabric/react-hooks';
+
 import ITile from './ITile/ITile';
 import ITileControls from './ITileControls/ITileControls';
 import ITileForm from './ITileForm/ITileForm';
 
-import { IFilePickerResult } from '@pnp/spfx-controls-react/lib/FilePicker';
-
-import {addTile, deleteTile, updateTile} from '../Services/DataRequests';
-
-import { useBoolean } from '@uifabric/react-hooks';
-
-import {DragDropContext, Droppable} from 'react-beautiful-dnd';
+import {isFont} from '../Services/Styling';
+import {addTile, deleteTile, updateTile, getTilesData, updateIcon} from '../Services/DataRequests';
 
 export default function TilesSPFx (props: ITilesSPFxProps) {
 
@@ -190,11 +186,6 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       });
     };
 
-    const onDragEnd = () =>{
-
-    };
-
-    
     const onSaveIcon = (iconName: string) => { 
       setSelectedIcon({ ...selectedIcon, ['font']: iconName }); 
     };
@@ -206,42 +197,26 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       <div className={styles.tilesSPFx}>
         <Label className={styles.wpTitle}>{escape(props.title)}</Label>
         
-        {/* <DragDropContext onDragEnd={onDragEnd}> */}
           <div className={styles.tilesCntnr}>
-
-          {/* <Droppable droppableId="pgTiles" direction="horizontal">
-            {(provided)=>(
-              <div ref={provided.innerRef}                
-                {...provided.droppableProps}
-              > */}
-
-                {tilesData.map((value:any, index)=>{
-                  return(
-                    <>
-                    <ITile key={value.Id} index={index}
-                        BgColor={value.BgColor} 
-                        Id={value.Id}
-                        Link={value.Link}
-                        Title={value.Title}
-                        IconName={value.IconName}
-                        Target={value.Target}
-                        handleIconSave={handleIconSave}
-                        handleDelete={handleDelete}
-                        handleEdit={handleEdit}
-                        showEditControls={showEditControls}
-                        />              
-                    </>
-                  );
-                })}
-
-                {/* {provided.placeholder}
-              </div>
-            )}
-            
-          </Droppable> */}
-
+            {tilesData.map((value:any, index)=>{
+              return(
+                <>
+                <ITile key={value.Id} index={index}
+                    BgColor={value.BgColor} 
+                    Id={value.Id}
+                    Link={value.Link}
+                    Title={value.Title}
+                    IconName={value.IconName}
+                    Target={value.Target}
+                    handleIconSave={handleIconSave}
+                    handleDelete={handleDelete}
+                    handleEdit={handleEdit}
+                    showEditControls={showEditControls}
+                    />              
+                </>
+              );
+            })}
           </div>
-        {/* </DragDropContext> */}
 
         <ITileControls
           toggleHideDialog={handleToggleHideDialog} 
