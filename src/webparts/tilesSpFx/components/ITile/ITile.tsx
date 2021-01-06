@@ -30,6 +30,9 @@ export default function ITile (props: ITileProps) {
             }
           </div>
         </div>
+        {props.SubLinks != 'None' &&
+          <div className={styles.tilesDpdIcon}></div>
+        }
       </a>
       
       {/* Tile Edit/Delete Options */}
@@ -42,7 +45,8 @@ export default function ITile (props: ITileProps) {
               linkField: props.Link, 
               colorField: props.BgColor, 
               iconField: props.IconName, 
-              openNewWin: props.Target })} />
+              openNewWin: props.Target,
+              dpdField: props.SubLinks })} />
           <Icon iconName="Delete" className={styles.deleteTileIcon} onClick={props.handleDelete(props.Id)}/>
         </div>
       }

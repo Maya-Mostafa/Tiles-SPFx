@@ -49,10 +49,16 @@ export default function ITileForm (props: ITileFormProps) {
         );
     };
 
-    const radioOptions: IChoiceGroupOption[] = [
+    const iconOptions: IChoiceGroupOption[] = [
       // { key: 'Auto', text: 'Auto-selected' },
       { key: 'Icon', text: 'Icon' },
       { key: 'Image', text: 'Custom Image'},
+    ];
+    const dpdOptions: IDropdownOption[] = [
+      { key: 'None', text: 'None' },
+      { key: 'Human Resources Support Services', text: 'Human Resources Support Services'},
+      { key: 'My Departments', text: 'My Departments' },
+      { key: 'My Superintendency', text: 'My Superintendency'},
     ];
   
     return(
@@ -71,16 +77,17 @@ export default function ITileForm (props: ITileFormProps) {
                         onChange={props.onChangeFormField} />
                     <Toggle id="openNewWin" label="Open in a new window" defaultChecked onText="Yes" offText="No" 
                       checked={props.formField.openNewWin} onChange={props.onChangeFormField} />
-                    
+                    <Dropdown id="dpdField" 
+                      label="Sub Links" options={dpdOptions} selectedKey={props.formField.dpdField ? props.formField.dpdField.key : undefined}
+                      onChange={props.onChangeFormField} />
                     <ChoiceGroup 
                       id="iconTypeField" name="iconTypeField" label="Thumbnail"
-                      selectedKey={props.selectedIconKey} options={radioOptions} onChange={props.onRadioChange} />
-
-                    {props.selectedIconKey == "Auto" &&
+                      selectedKey={props.selectedIconKey} options={iconOptions} onChange={props.onRadioChange} />
+                    {/* {props.selectedIconKey == "Auto" &&
                       <div className={styles.panelFileType}>
                         <FileTypeIcon type={IconType.font} path={props.formField.linkField} />
                       </div>
-                    }
+                    } */}
                     {props.selectedIconKey == "Icon" &&
                       <div>
                         <Icon className={styles.panelIcon} iconName={props.selectedIcon.font} />  

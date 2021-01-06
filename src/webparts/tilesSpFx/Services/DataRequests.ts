@@ -68,7 +68,8 @@ export const getTilesData = async (context:WebPartContext, listTitle: string ,or
                     Link: result.Link,
                     IconName: result.IconName,
                     Target: result.OpenInNewWindow ? "_blank" : "_self",
-                    Order: result.Order
+                    Order: result.Order,
+                    SubLinks: result.SubLinks
                 });
             });
         }
@@ -107,7 +108,8 @@ export const addTile = async (context: WebPartContext, listTitle: string, tileIn
         Color: tileInfo.Color ? tileInfo.Color : "Blue",
         Link: tileInfo.Link,
         IconName: tileInfo.Icon,
-        OpenInNewWindow: tileInfo.OpenNewWin
+        OpenInNewWindow: tileInfo.OpenNewWin,
+        SubLinks: tileInfo.SubLinks
     }),
     spOptions: ISPHttpClientOptions = {
         headers:{
@@ -148,7 +150,8 @@ export const updateTile = async (context: WebPartContext, listTitle: string, ite
         Color: tileInfo.Color,
         Link: tileInfo.Link,
         IconName: tileInfo.IconName,
-        OpenInNewWindow: tileInfo.OpenNewWin
+        OpenInNewWindow: tileInfo.OpenNewWin,
+        SubLinks: tileInfo.SubLinks
     }),
     spOptions: ISPHttpClientOptions = {
         headers:{
@@ -181,7 +184,8 @@ export const getTile = async (context: WebPartContext, listTitle:string, itemId:
                 Link: result.Link,
                 IconName: result.IconName,
                 OpenNewWin: result.OpenInNewWindow,
-                Id: result.Id
+                Id: result.Id,
+                SubLinks: result.SubLinks
             }; 
         }
         return tileData;
