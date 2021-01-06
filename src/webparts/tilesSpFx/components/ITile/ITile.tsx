@@ -17,13 +17,13 @@ export default function ITile (props: ITileProps) {
       {/* Tile */}
       <a href={props.Link} target={props.Target} data-interception="off">
         <div>
+          <div className={styles.tileText}>{props.Title}</div>
           <div className={styles.tileIcon}>                
             {isFont(props.IconName)
               ? <Icon iconName={props.IconName} /> 
               : <img src={props.IconName} height="40px" />                 
             }
           </div>
-          <div className={styles.tileText}>{props.Title}</div>
         </div>
       </a>
       
