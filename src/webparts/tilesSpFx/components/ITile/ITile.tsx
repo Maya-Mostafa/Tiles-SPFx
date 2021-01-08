@@ -11,7 +11,7 @@ import Truncate from 'react-truncate';
 export default function ITile (props: ITileProps) {
   
   initializeIcons();  
-
+  
     return (
       <div className={styles.tile +' '+ props.BgColor+ styles.Bg}>
     
@@ -30,8 +30,22 @@ export default function ITile (props: ITileProps) {
             }
           </div>
         </div>
+          
+        
         {props.SubLinks != 'None' &&
-          <div className={styles.tilesDpdIcon}></div>
+          <>
+          {console.log('props.SubLinksList', props.SubLinksList)}
+            <div className={styles.tilesDpdIcon}></div>
+            <ul className={styles.tilesDpd}>
+              {props.SubLinksList.map((value:any)=>{
+                  return(
+                    <li>
+                      <a href={value.URL} data-interception="off" target="_blank">{value.Title}</a>
+                    </li>
+                  );
+                })}
+            </ul>
+          </>
         }
       </a>
       

@@ -12,7 +12,7 @@ import ITileControls from './ITileControls/ITileControls';
 import ITileForm from './ITileForm/ITileForm';
 
 import {isFont} from '../Services/Styling';
-import {addTile, deleteTile, updateTile, getTilesData, updateIcon} from '../Services/DataRequests';
+import {addTile, deleteTile, updateTile, getTilesData, updateIcon, getSubLinks} from '../Services/DataRequests';
 
 export default function TilesSPFx (props: ITilesSPFxProps) {
 
@@ -66,7 +66,6 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       setIsNewForm(true); 
       openPanel();
     };
-    
 
     const deleteDialogContentProps = {
       type: DialogType.close,
@@ -79,11 +78,40 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       toggleEditControls();
     };
 
+    const [myDeptLinks, setMyDeptlinks] = React.useState([]);
+    const [mySuperLinks, setMySuperlinks] = React.useState([]);
+    const [myHRLinks, setMyHRlinks] = React.useState([]);
+  
     React.useEffect(()=>{
       getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
         setTilesData(results);
-      });      
+      }); 
+      getSubLinks(props.context, "My Departments").then((results)=>{
+        setMyDeptlinks(results);
+      });
+      getSubLinks(props.context, "My Superintendency").then((results)=>{
+        setMySuperlinks(results);
+      });
+      getSubLinks(props.context, "Human Resources Support Services").then((results)=>{
+        setMyHRlinks(results);
+      });     
     },[tilesData.length]);
+
+    const getMySubLinks = (key: string) =>{
+      let links : {}[] = [];
+      switch(key){
+        case "Human Resources Support Services" : 
+            links = myHRLinks;
+            break;
+        case "My Departments" :
+            links = myDeptLinks;
+            break;
+        case "My Superintendency":
+            links = mySuperLinks;
+            break;
+        }
+      return links;
+    };
 
     const handleIconSave = (itemId: any)=>{
       return (tIconName: string)=>{
@@ -213,11 +241,12 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
                     IconName={value.IconName}
                     Target={value.Target}
                     SubLinks={value.SubLinks}
+                    SubLinksList={getMySubLinks(value.SubLinks)}
                     handleIconSave={handleIconSave}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
                     showEditControls={showEditControls}
-                    />              
+                  />              
                 </>
               );
             })}

@@ -48,13 +48,49 @@ const getColorHex = (colorName:string) : string => {
     return colorHex;
 };
 
+const getSubLinksList = (key: string) : string =>{
+    let listTitle : string;
+    switch(key){
+        case "Human Resources Support Services" : 
+            listTitle = "HumanResources";
+            break;
+        case "My Departments" :
+            listTitle = "MyDepartment";
+            break;
+        case "My Superintendency":
+            listTitle = "MySuperintendency";
+            break;
+    }
+    return listTitle;
+};
+
+export const getSubLinks = async (context: WebPartContext, key: string) : Promise <any> => {
+    const 
+        listTitle = getSubLinksList(key),
+        restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${listTitle}')/items`,
+        _data = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1);
+    let listData : {}[] = [];
+
+    if(_data.ok){
+        const results = await _data.json();
+        if (results){
+            results.value.map((result:any)=>{
+                listData.push({
+                    Title: result.Title,
+                    URL: result.URL,
+                });
+            });
+            return listData;
+        }
+    }
+};
 
 export const getTilesData = async (context:WebPartContext, listTitle: string ,orderBy: string) :Promise <any> => {
     //orderBy = orderBy ? orderBy : 'Title';
     //listTitle = listTitle ? listTitle : 'Tiles';
     const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${listTitle}')/items?$orderby=${orderBy} asc`;
     const _data = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1);
-    let tilesData : {}[] = [];
+    let tilesData : {}[] = [], subLinksArr = [];
 
     if(_data.ok){
         const results = await _data.json();
@@ -64,18 +100,19 @@ export const getTilesData = async (context:WebPartContext, listTitle: string ,or
                     Id: result.Id,
                     Title: result.Title,
                     BgColor: result.Color,
-                    BgColorHex : getColorHex(result.Color),
+                    //BgColorHex : getColorHex(result.Color),
                     Link: result.Link,
                     IconName: result.IconName,
                     Target: result.OpenInNewWindow ? "_blank" : "_self",
                     Order: result.Order,
-                    SubLinks: result.SubLinks
+                    SubLinks: result.SubLinks,
+                    //SubLinksList: result.SubLinks != "None" ? getSubLinks(context, result.SubLinks).then((subLinks)=>{return subLinks}) : null
                 });
             });
+            return tilesData;
         }
-        return tilesData;
+        
     }
-
 };
 
 export const updateIcon = async (context: WebPartContext, listTitle: string, itemId:number, iconName:string) =>{

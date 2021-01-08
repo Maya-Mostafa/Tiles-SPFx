@@ -7,6 +7,7 @@ export interface ITileProps{
     IconName: string;
     Target: string;
     SubLinks: string;
+    SubLinksList: any;
 
     handleIconSave: (itemId: any) => ((tIconName: string)=>void) ;
     handleDelete : any ;
