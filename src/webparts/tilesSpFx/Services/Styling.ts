@@ -2821,5 +2821,7 @@ export const getColors = () : {}[] =>{
 };
 
 export const isFont = (icon: string) : boolean =>{
-    return (icon.indexOf('https://') == -1 && icon.indexOf('http://') == -1);
+    if (icon)
+        return (icon.indexOf('https://') == -1 && icon.indexOf('http://') == -1);
+    else return false;
 };
