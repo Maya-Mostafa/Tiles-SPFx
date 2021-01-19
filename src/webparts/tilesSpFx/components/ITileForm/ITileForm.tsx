@@ -75,7 +75,7 @@ export default function ITileForm (props: ITileFormProps) {
                         options={colorOptions} styles={dropdownStyles}
                         onRenderTitle={onRenderColorTitle} onRenderOption={onRenderColorOption}
                         onChange={props.onChangeFormField} />
-                    <Toggle id="openNewWin" label="Open in a new window" defaultChecked onText="Yes" offText="No" 
+                    <Toggle className={styles.formToggle} id="openNewWin" label="Open in a new window" defaultChecked onText="Yes" offText="No" 
                       checked={props.formField.openNewWin} onChange={props.onChangeFormField} />
                     <Dropdown id="dpdField" 
                       label="Sub Links" options={dpdOptions} selectedKey={props.formField.dpdField ? props.formField.dpdField.key : undefined}
