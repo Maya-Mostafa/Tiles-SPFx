@@ -12,7 +12,7 @@ import ITileControls from './ITileControls/ITileControls';
 import ITileForm from './ITileForm/ITileForm';
 
 import {isFont} from '../Services/Styling';
-import {addTile, deleteTile, updateTile, getTilesData, updateIcon, getSubLinks} from '../Services/DataRequests';
+import {addTile, deleteTile, updateTile, getTilesData, updateIcon, getSubLinks, getTilesData1} from '../Services/DataRequests';
 
 export default function TilesSPFx (props: ITilesSPFxProps) {
 
@@ -83,16 +83,19 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const [myHRLinks, setMyHRlinks] = React.useState([]);
   
     React.useEffect(()=>{
+      //getTilesData1(props.context, props.tilesList, props.orderBy).then((results)=>{
+        //console.log(results);
+      //}); 
       getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
         setTilesData(results);
       }); 
-      getSubLinks(props.context, "My Departments").then((results)=>{
+      getSubLinks(props.context, props.myDepts).then((results)=>{
         setMyDeptlinks(results);
       });
-      getSubLinks(props.context, "My Superintendency").then((results)=>{
+      getSubLinks(props.context, props.mySuper).then((results)=>{
         setMySuperlinks(results);
       });
-      getSubLinks(props.context, "Human Resources Support Services").then((results)=>{
+      getSubLinks(props.context, props.myHR).then((results)=>{
         setMyHRlinks(results);
       });     
     },[tilesData.length]);
@@ -100,13 +103,13 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const getMySubLinks = (key: string) =>{
       let links : {}[] = [];
       switch(key){
-        case "Human Resources Support Services" : 
+        case props.myHR : 
             links = myHRLinks;
             break;
-        case "My Departments" :
+        case props.myDepts :
             links = myDeptLinks;
             break;
-        case "My Superintendency":
+        case props.mySuper:
             links = mySuperLinks;
             break;
         }
@@ -258,7 +261,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
         />
 
         <Panel
-          headerText="Tile Properties"
+          headerText="Tile Properties" className={styles.tilesPanel}
           isBlocking={false}
           isOpen={isOpenPanel}
           onDismiss={dismissPanel}

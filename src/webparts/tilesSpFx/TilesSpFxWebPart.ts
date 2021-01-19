@@ -30,7 +30,10 @@ export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWe
         title: this.properties.title,
         context: this.context,
         orderBy: this.properties.orderBy,
-        tilesList: this.properties.tilesList
+        tilesList: this.properties.tilesList,
+        myDepts: "My Departments",       
+        mySuper: "My Superintendency",
+        myHR: "Human Resources Support Services"
       }
     );
 

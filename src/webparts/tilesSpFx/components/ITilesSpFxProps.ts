@@ -5,4 +5,7 @@ export interface ITilesSPFxProps {
   context: WebPartContext;
   orderBy: string;
   tilesList: string;
+  myDepts: string;
+  mySuper: string;
+  myHR: string;
 }
