@@ -75,3 +75,4 @@ Now you will able to see remote branches in source control branches options
 - [https://egghead.io/courses/beautiful-and-accessible-drag-and-drop-with-react-beautiful-dnd] react-beautiful-dnd Course
 - [https://stackoverflow.com/questions/42142490/how-to-pull-specific-remote-into-current-branch-in-vs-code] Git pull from another branch VS Code
 - [https://www.npmjs.com/package/react-truncate] React Truncate for text trimming with ellipsis
+- [https://www.c-sharpcorner.com/article/deploy-multiple-instance-of-spfx-webpart-in-same-app-catalog/] Deploy Multiple Instance Of SPFx Webpart In Same App Catalog
