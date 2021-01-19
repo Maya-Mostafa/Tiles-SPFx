@@ -16,7 +16,7 @@ export default function ITile (props: ITileProps) {
       <div className={styles.tile +' '+ props.BgColor+ styles.Bg}>
     
       {/* Tile */}
-      <a href={props.Link} target={props.Target} data-interception="off">
+      <a href={(props.SubLinks != 'None' && props.SubLinks != null) ? "javascript:void(0)" : props.Link} target={(props.SubLinks != 'None' && props.SubLinks != null) ? "" : props.Target} data-interception="off">
         <div>
           <div className={styles.tileText} title={props.Title}>
             <Truncate lines={5} ellipsis={<span>...</span>}>
@@ -30,11 +30,9 @@ export default function ITile (props: ITileProps) {
             }
           </div>
         </div>
-          
         
-        {props.SubLinks != 'None' &&
+        {(props.SubLinks != 'None' && props.SubLinks != null) &&
           <>
-          {console.log('props.SubLinksList', props.SubLinksList)}
             <div className={styles.tilesDpdIcon}></div>
             <ul className={styles.tilesDpd}>
               {props.SubLinksList.map((value:any)=>{
