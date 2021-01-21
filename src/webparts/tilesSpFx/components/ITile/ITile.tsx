@@ -17,8 +17,8 @@ export default function ITile (props: ITileProps) {
     
       {/* Tile */}
       <a 
-        href={(props.SubLinks != 'None' && props.SubLinks != null) ? "javascript:void(0)" : props.Link} 
-        target={(props.SubLinks != 'None' && props.SubLinks != null) ? "" : props.Target} data-interception="off">
+        href={(props.SubLinksListName != 'None' && props.SubLinksListName != null) ? "javascript:void(0)" : props.Link} 
+        target={(props.SubLinksListName != 'None' && props.SubLinksListName != null) ? "" : props.Target} data-interception="off">
         <div>
           <div className={styles.tileText} title={props.Title}>
             <Truncate lines={5} ellipsis={<span>...</span>}>
@@ -33,11 +33,26 @@ export default function ITile (props: ITileProps) {
           </div>
         </div>
         
-        {(props.SubLinks != 'None' && props.SubLinks != null) &&
+        {/* {(props.SubLinks != 'None' && props.SubLinks != null) &&
           <>
             <div className={styles.tilesDpdIcon}></div>
             <ul className={styles.tilesDpd}>
               {props.SubLinksList.map((value:any)=>{
+                  return(
+                    <li>
+                      <a href={value.URL} data-interception="off" target="_blank">{value.Title}</a>
+                    </li>
+                  );
+                })}
+            </ul>
+          </>
+        } */}
+
+        {(props.SubLinksListName != null) &&
+          <>
+            <div className={styles.tilesDpdIcon}></div>
+            <ul className={styles.tilesDpd}>
+              {props.SubLinksListData.map((value:any)=>{
                   return(
                     <li>
                       <a href={value.URL} data-interception="off" target="_blank">{value.Title}</a>
@@ -60,7 +75,9 @@ export default function ITile (props: ITileProps) {
               colorField: props.BgColor, 
               iconField: props.IconName, 
               openNewWin: props.Target,
-              dpdField: props.SubLinks })} />
+              // dpdField: props.SubLinks,
+              subLinksListName: props.SubLinksListName,
+              subLinksListData: props.SubLinksListData })} />
           <Icon iconName="Delete" className={styles.deleteTileIcon} onClick={props.handleDelete(props.Id)}/>
         </div>
       }

@@ -6,8 +6,8 @@ export interface ITileProps{
     Id: any;
     IconName: string;
     Target: string;
-    SubLinks: string;
-    SubLinksList: any;
+    // SubLinks: string;
+    // SubLinksList: any;
 
     handleIconSave: (itemId: any) => ((tIconName: string)=>void) ;
     handleDelete : any ;
@@ -16,4 +16,7 @@ export interface ITileProps{
     showEditControls: boolean;
 
     index: any;
+
+    SubLinksListName: string;
+    SubLinksListData: any;
 }
