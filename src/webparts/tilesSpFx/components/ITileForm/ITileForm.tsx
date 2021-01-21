@@ -77,9 +77,10 @@ export default function ITileForm (props: ITileFormProps) {
                         onChange={props.onChangeFormField} />
                     <Toggle className={styles.formToggle} id="openNewWin" label="Open in a new window" defaultChecked onText="Yes" offText="No" 
                       checked={props.formField.openNewWin} onChange={props.onChangeFormField} />
-                    <Dropdown id="dpdField" 
+                    {/* <Dropdown id="dpdField" 
                       label="Sub Links" options={dpdOptions} selectedKey={props.formField.dpdField ? props.formField.dpdField.key : undefined}
-                      onChange={props.onChangeFormField} />
+                      onChange={props.onChangeFormField} /> */}
+                    <TextField id="subField" label="Sub Links List" value={props.formField.subLinksListName} onChange={props.onChangeFormField} />
                     <ChoiceGroup 
                       id="iconTypeField" name="iconTypeField" label="Thumbnail"
                       selectedKey={props.selectedIconKey} options={iconOptions} onChange={props.onRadioChange} />
