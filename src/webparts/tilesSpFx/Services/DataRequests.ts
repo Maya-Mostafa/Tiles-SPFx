@@ -2,138 +2,63 @@ import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { SPPermission } from "@microsoft/sp-page-context";
 import {SPHttpClient, ISPHttpClientOptions} from "@microsoft/sp-http";
 
-const getColorHex = (colorName:string) : string => {
-    let colorHex : string;
-    switch (colorName) {
-        case ("Black"):
-            colorHex = "#000000";
-            break;
-        case ("Blue"):
-            colorHex = "#0096CF";
-            break;
-        case ("Green"):
-            colorHex = "#27AE60";
-            break;
-        case ("Grey"):
-            colorHex = "#9FA7A7";
-            break;
-        case ("Mint"):
-            colorHex = "#1C9A82";
-            break;
-        case ("Navy"):
-            colorHex = "#4C5F79";
-            break;
-        case ("Orange"):
-            colorHex = "#EA8020";
-            break;
-        case ("Pink"):
-            colorHex = "#F46C9E";
-            break;
-        case ("Purple"):
-            colorHex = "#A061BA";
-            break;
-        case ("Red"):
-            colorHex = "#D7574A";
-            break;
-        case ("Teal"):
-            colorHex = "#38A8AC";
-            break;
-        case ("White"):
-            colorHex = "#FFFFFF";
-            break;
-        case ("Yellow"):
-            colorHex = "#DAA62F";
-            break;
-    }
-    return colorHex;
-};
-
-const getSubLinksList = (key: string) : string =>{
-    let listTitle : string;
-    switch(key){
-        case "Human Resources Support Services" : 
-            listTitle = "HumanResources";
-            break;
-        case "My Departments" :
-            listTitle = "MyDepartment";
-            break;
-        case "My Superintendency":
-            listTitle = "MySuperintendency";
-            break;
-    }
-    return listTitle;
-};
-
-export const getSubLinks = async (context: WebPartContext, key: string) : Promise <any> => {
-    const 
-        listTitle = getSubLinksList(key),
-        restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${listTitle}')/items?$orderby=Title`,
-        _data = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1);
-    let listData : {}[] = [];
-
+const getMyLocationsInfo = async (context: WebPartContext, locNum: string) =>{
+    const   restUrl = `/sites/contentTypeHub/_api/web/Lists/GetByTitle('schools')/items?$select=Title,School_x0020_My_x0020_School_x00,School_x0020_Name&$filter=Title eq '${locNum}'`,
+            _data = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1);
+    let locInfo : {} = {};
+    
     if(_data.ok){
-        const results = await _data.json();
-        if (results){
-            results.value.map((result:any)=>{
-                listData.push({
-                    Title: result.Title,
-                    URL: result.URL ? result.URL : result.url,
-                });
-            });
-            return listData;
-        }
+        const result = await _data.json();
+        locInfo = {Title: result.value[0].School_x0020_Name, URL: result.value[0].School_x0020_My_x0020_School_x00};
+    }
+    return locInfo;
+};
+
+const getMyLocations = async (context: WebPartContext) =>{
+    const   currUserEmail = context.pageContext.user.email,
+            restUrl = `/sites/contentTypeHub/_api/web/Lists/GetByTitle('Employees')/items?$filter=MMHubBoardEmail eq '${currUserEmail}'&$select=MMHubLocationNos`;
+    let userLocationsInfo : {}[] = [], schoolsData:any;
+
+    const myLocs = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1).then(response => response.json());
+    const myLocsNum : [] = myLocs.value[0].MMHubLocationNos.split(";");
+
+    for(let myLocNum of myLocsNum){
+        schoolsData = await getMyLocationsInfo(context, myLocNum).then((results)=>{
+            userLocationsInfo.push(results);
+        });
+    }
+    return userLocationsInfo;
+};
+
+const getSubLinks = async (context: WebPartContext, listName: string) : Promise <any> => {
+    const 
+        restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${listName}')/items?$orderby=Title`,
+        _data = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1).then(response => response.json());
+    let listData : {}[] = [], myLocs: {}[] = [];
+
+    _data.value.map((result:any)=>{
+        listData.push({
+            Title: result.Title,
+            URL: result.URL ? result.URL : result.url,
+        });
+    });
+
+    if(listName === "MyDepartment"){
+        myLocs = await getMyLocations(context).then(response => response);
+        return [...myLocs, ...listData];
+    }else{
+        return listData;
     }
 };
 
 export const getTilesData = async (context:WebPartContext, listTitle: string ,orderBy: string) :Promise <any> => {
-    //orderBy = orderBy ? orderBy : 'Title';
-    //listTitle = listTitle ? listTitle : 'Tiles';
-    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${listTitle}')/items?$orderby=${orderBy} asc`;
-    const _data = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1);
-    let tilesData : {}[] = [], subLinksArr = [];
-
-    if(_data.ok){
-        const results = await _data.json();
-        if(results){
-            results.value.map((result:any)=>{
-                tilesData.push({
-                    Id: result.Id,
-                    Title: result.Title,
-                    BgColor: result.Color,
-                    //BgColorHex : getColorHex(result.Color),
-                    Link: result.Link,
-                    IconName: result.IconName,
-                    Target: result.OpenInNewWindow ? "_blank" : "_self",
-                    Order: result.Order,
-                    SubLinks: result.SubLinks,
-                    //SubLinksList: result.SubLinks != "None" ? getSubLinks(context, result.SubLinks).then((subLinks)=>{return subLinks}) : null
-                });
-            });
-            return tilesData;
-        }
-        
-    }
-};
-/*
-// We have to get chips after we get fish...
-getFishAndChips = async () => {
-    const fish = await fetch(this.fishApiUrl).then(response => response.json());
-
-    const fishIds = fish.map(fish => fish.id),
-    chipReqOpts = { method: 'POST', body: JSON.stringify({ fishIds }) };
-
-    const chips = await fetch(this.chipsApiUrl, chipReqOpts).then(response => response.json());
-}
-*/
-
-export const getTilesData1 = async (context:WebPartContext, listTitle: string ,orderBy: string) :Promise <any> => {
     
-    let tilesData : any = [];
+    let tilesData : any = [], listData:any, myLocsData:any;
 
     const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${listTitle}')/items?$orderby=${orderBy} asc`;
     const _tiles = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1).then(response => response.json());
 
-    const tiles = _tiles.value.map((result:any)=>{
+    _tiles.value.map((result:any)=>{
         tilesData.push({
             Id: result.Id,
             Title: result.Title,
@@ -142,23 +67,23 @@ export const getTilesData1 = async (context:WebPartContext, listTitle: string ,o
             IconName: result.IconName,
             Target: result.OpenInNewWindow ? "_blank" : "_self",
             Order: result.Order,
-            SubLinksList: result.SubLinksList,
-            SubLinks: null
+            SubLinks: result.SubLinks,
+            SubLinksListName: result.SubLinksList,
+            SubLinksListData: null
         });
     });
 
-    let tile:any, restSubUrl: string, tilesSubList:any;
-    for(tile in tilesData){
-        if(tile.SubLinksList){
-            restSubUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${tile.SubLinksList}')/items`;
-            tilesSubList = await context.spHttpClient.get(restSubUrl, SPHttpClient.configurations.v1).then(response => response.json());
-            tilesData.SubLinks = tilesSubList;
+    for(let tileData of tilesData){
+        if(tileData.SubLinksListName){
+            listData = await getSubLinks(context, tileData.SubLinksListName).then((results)=>{
+                tileData.SubLinksListData = results;
+            });
         }
     }
-
-    console.log("tilesData", tilesData);
+    return tilesData;
 };
 
+// Tile Operations -start
 export const updateIcon = async (context: WebPartContext, listTitle: string, itemId:number, iconName:string) =>{
     const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('${listTitle}')/items(${itemId})`;
     
@@ -190,7 +115,8 @@ export const addTile = async (context: WebPartContext, listTitle: string, tileIn
         Link: tileInfo.Link,
         IconName: tileInfo.Icon,
         OpenInNewWindow: tileInfo.OpenNewWin,
-        SubLinks: tileInfo.SubLinks
+        SubLinks: tileInfo.SubLinks,
+        SubLinksList: tileInfo.SubLinksListName
     }),
     spOptions: ISPHttpClientOptions = {
         headers:{
@@ -232,7 +158,8 @@ export const updateTile = async (context: WebPartContext, listTitle: string, ite
         Link: tileInfo.Link,
         IconName: tileInfo.IconName,
         OpenInNewWindow: tileInfo.OpenNewWin,
-        SubLinks: tileInfo.SubLinks
+        SubLinks: tileInfo.SubLinks,
+        SubLinksList: tileInfo.SubLinksListName
     }),
     spOptions: ISPHttpClientOptions = {
         headers:{
@@ -272,6 +199,7 @@ export const getTile = async (context: WebPartContext, listTitle:string, itemId:
         return tileData;
     }
 };
+// Tile Operations -end
 
 export const isUserManage = (context: WebPartContext) : boolean =>{
     const userPermissions = context.pageContext.web.permissions,

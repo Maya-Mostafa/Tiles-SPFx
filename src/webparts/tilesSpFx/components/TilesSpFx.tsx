@@ -12,7 +12,7 @@ import ITileControls from './ITileControls/ITileControls';
 import ITileForm from './ITileForm/ITileForm';
 
 import {isFont} from '../Services/Styling';
-import {addTile, deleteTile, updateTile, getTilesData, updateIcon, getSubLinks, getTilesData1} from '../Services/DataRequests';
+import {addTile, deleteTile, updateTile, getTilesData, updateIcon} from '../Services/DataRequests';
 
 export default function TilesSPFx (props: ITilesSPFxProps) {
 
@@ -30,7 +30,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       colorField: {key: "", text: "", data: {icon: ""}},
       openNewWin: true,
       idField : "",
-      dpdField: { key: 'None', text: 'None' }
+      // dpdField: { key: 'None', text: 'None' },
+      subField: ""
     });
     const onChangeFormField = React.useCallback(
       (event: any, newValue?: any) => {   
@@ -52,7 +53,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
         colorField: {key: "", text: "", data: {icon: ""}},
         openNewWin: true,
         idField : "",
-        dpdField: { key: 'None', text: 'None' }
+        // dpdField: { key: 'None', text: 'None' },
+        subField: ""
       });
       setSelectedIconKey('Icon');
       setSelectedIcon({font: 'globe', img: null});
@@ -77,44 +79,12 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const handleEditChange = (ev: React.MouseEvent<HTMLElement>, checked: boolean) =>{
       toggleEditControls();
     };
-
-    const [myDeptLinks, setMyDeptlinks] = React.useState([]);
-    const [mySuperLinks, setMySuperlinks] = React.useState([]);
-    const [myHRLinks, setMyHRlinks] = React.useState([]);
   
     React.useEffect(()=>{
-      //getTilesData1(props.context, props.tilesList, props.orderBy).then((results)=>{
-        //console.log(results);
-      //}); 
       getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
         setTilesData(results);
       }); 
-      getSubLinks(props.context, props.myDepts).then((results)=>{
-        setMyDeptlinks(results);
-      });
-      getSubLinks(props.context, props.mySuper).then((results)=>{
-        setMySuperlinks(results);
-      });
-      getSubLinks(props.context, props.myHR).then((results)=>{
-        setMyHRlinks(results);
-      });     
     },[tilesData.length]);
-
-    const getMySubLinks = (key: string) =>{
-      let links : {}[] = [];
-      switch(key){
-        case props.myHR : 
-            links = myHRLinks;
-            break;
-        case props.myDepts :
-            links = myDeptLinks;
-            break;
-        case props.mySuper:
-            links = mySuperLinks;
-            break;
-        }
-      return links;
-    };
 
     const handleIconSave = (itemId: any)=>{
       return (tIconName: string)=>{
@@ -159,7 +129,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
             colorField : {key: tileInfo.colorField.toLowerCase(), text: tileInfo.colorField, data: {icon: "CircleFill"}},
             openNewWin: tileInfo.openNewWin,
             idField : tileInfo.idField,
-            dpdField : {key: tileInfo.dpdField, text: tileInfo.dpdField}
+            // dpdField : {key: tileInfo.dpdField, text: tileInfo.dpdField},
+            subField: tileInfo.subLinksListName
           });   
           if (isFont(tileInfo.iconField)){
             setSelectedIconKey('Icon');
@@ -185,7 +156,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           Color: formField.colorField.text,
           Icon: selectedIconKey == 'Icon' ? selectedIcon.font : (selectedIcon.img ? selectedIcon.img : 'picturefill'),
           OpenNewWin: formField.openNewWin,
-          SubLinks: formField.dpdField.text
+          // SubLinks: formField.dpdField.text,
+          SubLinksListName: formField.subField
         };
         addTile(props.context, props.tilesList, tileInfo).then(()=>{
           getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
@@ -211,7 +183,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           Color: formField.colorField.text,
           IconName: selectedIconKey == 'Icon' ? selectedIcon.font : (selectedIcon.img ? selectedIcon.img : 'picturefill'),
           OpenInNewWindow: formField.openNewWin,
-          SubLinks: formField.dpdField.text
+          // SubLinks: formField.dpdField.text,
+          SubLinksListName: formField.subField
         }).then(()=>{
           getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
             setTilesData(results);
@@ -243,12 +216,12 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
                     Title={value.Title}
                     IconName={value.IconName}
                     Target={value.Target}
-                    SubLinks={value.SubLinks}
-                    SubLinksList={getMySubLinks(value.SubLinks)}
                     handleIconSave={handleIconSave}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
                     showEditControls={showEditControls}
+                    SubLinksListName={value.SubLinksListName}
+                    SubLinksListData={value.SubLinksListData}
                   />              
                 </>
               );
@@ -270,7 +243,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
             formField={formField} onChangeFormField={onChangeFormField}
             errorMsgField={errorMsgField} 
             selectedIconKey={selectedIconKey} onRadioChange={onRadioChange}
-            selectedIcon={selectedIcon} onSaveIcon={onSaveIcon} onSaveImg={onSaveImg}/>
+            selectedIcon={selectedIcon} onSaveIcon={onSaveIcon} onSaveImg={onSaveImg} />
             <div className={styles.panelBtns}>
               {isNewForm 
                   ? <PrimaryButton onClick={addTileItem} text="Save" />
