@@ -3,8 +3,8 @@
     "isCreatingSolution": true,
     "environment": "spo",
     "version": "1.11.0",
-    "libraryName": "tiles-sp-fx",
-    "libraryId": "692b9aa5-331b-49ac-b601-093d37e05a0a",
+    "libraryName": "peel-modern-tiles",
+    "libraryId": "bf4d82af-887a-4404-b543-42017417a5b5",
     "packageManager": "npm",
     "isDomainIsolated": false,
     "componentType": "webpart"

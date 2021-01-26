@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "8fe6667c-68fc-4f52-a37f-7570b2146ae3",
+  "id": "bf4d82af-887a-4404-b543-42017417a5b5",
   "alias": "TilesSpFxWebPart",
   "componentType": "WebPart",
 
@@ -17,7 +17,7 @@
   "preconfiguredEntries": [{
     "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
     "group": { "default": "Other" },
-    "title": { "default": "Tiles SPFx" },
+    "title": { "default": "Peel Modern Tiles" },
     "description": { "default": "Tiles SPFx description" },
     "officeFabricIconFontName": "Page",
     "properties": {

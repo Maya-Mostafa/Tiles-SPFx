@@ -1,8 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "tiles-sp-fx-client-side-solution",
-    "id": "692b9aa5-331b-49ac-b601-093d37e05a0a",
+    "name": "Peel Modern Tiles",
+    "id": "bf4d82af-887a-4404-b543-42017417a5b5",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
     "isDomainIsolated": false,
@@ -16,6 +16,6 @@
     }
   },
   "paths": {
-    "zippedPackage": "solution/tiles-sp-fx.sppkg"
+    "zippedPackage": "solution/peel-modern-tiles.sppkg"
   }
 }
