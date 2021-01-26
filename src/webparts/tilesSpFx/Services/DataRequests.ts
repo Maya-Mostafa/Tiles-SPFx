@@ -1,6 +1,7 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { SPPermission } from "@microsoft/sp-page-context";
 import {SPHttpClient, ISPHttpClientOptions} from "@microsoft/sp-http";
+import { IDropdownOption } from "office-ui-fabric-react";
 
 const getMyLocationsInfo = async (context: WebPartContext, locNum: string) =>{
     const   restUrl = `/sites/contentTypeHub/_api/web/Lists/GetByTitle('schools')/items?$select=Title,School_x0020_My_x0020_School_x00,School_x0020_Name&$filter=Title eq '${locNum}'`,
@@ -200,6 +201,21 @@ export const getTile = async (context: WebPartContext, listTitle:string, itemId:
     }
 };
 // Tile Operations -end
+
+export const getAllLists = async (context: WebPartContext) =>{
+    const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists?$select=Title&$filter=BaseType eq 0 and BaseTemplate eq 100 and Hidden eq false`;
+    const _data = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1).then(response => response.json());
+    const listsDpd : IDropdownOption[] = [];
+
+    _data.value.map((result:any)=>{
+        listsDpd.push({
+            key: result.Title,
+            text: result.Title
+        });
+    });
+
+    return listsDpd;
+};
 
 export const isUserManage = (context: WebPartContext) : boolean =>{
     const userPermissions = context.pageContext.web.permissions,

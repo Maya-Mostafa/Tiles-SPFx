@@ -12,11 +12,13 @@ import ITileControls from './ITileControls/ITileControls';
 import ITileForm from './ITileForm/ITileForm';
 
 import {isFont} from '../Services/Styling';
-import {addTile, deleteTile, updateTile, getTilesData, updateIcon} from '../Services/DataRequests';
+import {addTile, deleteTile, updateTile, getTilesData, updateIcon, getAllLists} from '../Services/DataRequests';
 
 export default function TilesSPFx (props: ITilesSPFxProps) {
 
     const [tilesData, setTilesData] = React.useState([]);
+
+    const [siteLists, setSiteLists] = React.useState([]);
 
     const [selectedIconKey, setSelectedIconKey] = React.useState<string>('Icon');
     const onRadioChange = React.useCallback((ev: React.SyntheticEvent<HTMLElement>, option: IChoiceGroupOption) => {
@@ -31,7 +33,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       openNewWin: true,
       idField : "",
       // dpdField: { key: 'None', text: 'None' },
-      subField: ""
+      subField: {key: "", text: ""}
     });
     const onChangeFormField = React.useCallback(
       (event: any, newValue?: any) => {   
@@ -54,7 +56,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
         openNewWin: true,
         idField : "",
         // dpdField: { key: 'None', text: 'None' },
-        subField: ""
+        subField: {key: "", text: ""}
       });
       setSelectedIconKey('Icon');
       setSelectedIcon({font: 'globe', img: null});
@@ -84,6 +86,9 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
         setTilesData(results);
       }); 
+      getAllLists(props.context).then((results)=>{
+        setSiteLists(results);
+      });
     },[tilesData.length]);
 
     const handleIconSave = (itemId: any)=>{
@@ -130,7 +135,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
             openNewWin: tileInfo.openNewWin,
             idField : tileInfo.idField,
             // dpdField : {key: tileInfo.dpdField, text: tileInfo.dpdField},
-            subField: tileInfo.subLinksListName
+            subField: {key: tileInfo.subLinksListName, text: tileInfo.subLinksListName}
           });   
           if (isFont(tileInfo.iconField)){
             setSelectedIconKey('Icon');
@@ -157,7 +162,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           Icon: selectedIconKey == 'Icon' ? selectedIcon.font : (selectedIcon.img ? selectedIcon.img : 'picturefill'),
           OpenNewWin: formField.openNewWin,
           // SubLinks: formField.dpdField.text,
-          SubLinksListName: formField.subField
+          SubLinksListName: formField.subField.text
         };
         addTile(props.context, props.tilesList, tileInfo).then(()=>{
           getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
@@ -184,7 +189,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           IconName: selectedIconKey == 'Icon' ? selectedIcon.font : (selectedIcon.img ? selectedIcon.img : 'picturefill'),
           OpenInNewWindow: formField.openNewWin,
           // SubLinks: formField.dpdField.text,
-          SubLinksListName: formField.subField
+          SubLinksListName: formField.subField.text
         }).then(()=>{
           getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
             setTilesData(results);
@@ -239,7 +244,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           isOpen={isOpenPanel}
           onDismiss={dismissPanel}
           closeButtonAriaLabel="Close">
-          <ITileForm context={props.context}
+          <ITileForm context={props.context} siteLists={siteLists}
             formField={formField} onChangeFormField={onChangeFormField}
             errorMsgField={errorMsgField} 
             selectedIconKey={selectedIconKey} onRadioChange={onRadioChange}

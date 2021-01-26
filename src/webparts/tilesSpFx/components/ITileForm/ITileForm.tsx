@@ -54,12 +54,6 @@ export default function ITileForm (props: ITileFormProps) {
       { key: 'Icon', text: 'Icon' },
       { key: 'Image', text: 'Custom Image'},
     ];
-    const dpdOptions: IDropdownOption[] = [
-      { key: 'None', text: 'None' },
-      { key: 'Human Resources Support Services', text: 'Human Resources Support Services'},
-      { key: 'My Departments', text: 'My Departments' },
-      { key: 'My Superintendency', text: 'My Superintendency'},
-    ];
   
     return(
         <div className={styles.tileForm}>
@@ -80,7 +74,11 @@ export default function ITileForm (props: ITileFormProps) {
                     {/* <Dropdown id="dpdField" 
                       label="Sub Links" options={dpdOptions} selectedKey={props.formField.dpdField ? props.formField.dpdField.key : undefined}
                       onChange={props.onChangeFormField} /> */}
-                    <TextField id="subField" label="Sub Links List" value={props.formField.subLinksListName} onChange={props.onChangeFormField} />
+                    <Dropdown id="subField" label="Sub Links List" 
+                      options={props.siteLists} 
+                      selectedKey={props.formField.subLinksListName ? props.formField.subLinksListName : undefined} 
+                      onChange={props.onChangeFormField} />
+                    {/* <TextField id="subField" label="Sub Links List" value={props.formField.subLinksListName} onChange={props.onChangeFormField} /> */}
                     <ChoiceGroup 
                       id="iconTypeField" name="iconTypeField" label="Thumbnail"
                       selectedKey={props.selectedIconKey} options={iconOptions} onChange={props.onRadioChange} />

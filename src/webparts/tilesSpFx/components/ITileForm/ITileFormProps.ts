@@ -12,4 +12,6 @@ export interface ITileFormProps{
     selectedIcon: any;
     onSaveIcon: any;
     onSaveImg: any;
+
+    siteLists: any;
 }
