@@ -54,7 +54,7 @@ export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWe
       if (response.ok) {
         const results = await response.json();
         if(results){
-          console.log('results', results);
+          //console.log('results', results);
           results.value.map((result: any)=>{
             listsTitle.push({
               key: result.Title,

@@ -4,7 +4,6 @@ import styles from '../TilesSPFx.module.scss';
 
 import {Stack, TextField, Dropdown,IDropdownOption, Toggle, ChoiceGroup, IChoiceGroupOption} from '@fluentui/react';
 import {getColors} from '../../Services/Styling';
-import {getAllLists} from '../../Services/DataRequests';
 
 import { initializeIcons } from '@uifabric/icons';
 import {Icon} from '@fluentui/react/lib/Icon';
