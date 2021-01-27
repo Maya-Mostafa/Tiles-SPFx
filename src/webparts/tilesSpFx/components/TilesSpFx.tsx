@@ -10,6 +10,7 @@ import { useBoolean } from '@uifabric/react-hooks';
 import ITile from './ITile/ITile';
 import ITileControls from './ITileControls/ITileControls';
 import ITileForm from './ITileForm/ITileForm';
+import IPreloader from './IPreloader/IPreloader';
 
 import {isFont} from '../Services/Styling';
 import {addTile, deleteTile, updateTile, getTilesData, updateIcon, getAllLists} from '../Services/DataRequests';
@@ -19,6 +20,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const [tilesData, setTilesData] = React.useState([]);
 
     const [siteLists, setSiteLists] = React.useState([]);
+    const [isDataLoading, { toggle: toggleIsDataLoading }] = useBoolean(false);
 
     const [selectedIconKey, setSelectedIconKey] = React.useState<string>('Icon');
     const onRadioChange = React.useCallback((ev: React.SyntheticEvent<HTMLElement>, option: IChoiceGroupOption) => {
@@ -33,7 +35,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       openNewWin: true,
       idField : "",
       // dpdField: { key: 'None', text: 'None' },
-      subField: {key: "", text: ""}
+      subField: {key: "None", text: "None"}
     });
     const onChangeFormField = React.useCallback(
       (event: any, newValue?: any) => {   
@@ -56,7 +58,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
         openNewWin: true,
         idField : "",
         // dpdField: { key: 'None', text: 'None' },
-        subField: {key: "", text: ""}
+        subField: {key: "None", text: "None"}
       });
       setSelectedIconKey('Icon');
       setSelectedIcon({font: 'globe', img: null});
@@ -81,7 +83,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const handleEditChange = (ev: React.MouseEvent<HTMLElement>, checked: boolean) =>{
       toggleEditControls();
     };
-  
+    
     React.useEffect(()=>{
       getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
         setTilesData(results);
@@ -89,6 +91,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       getAllLists(props.context).then((results)=>{
         setSiteLists(results);
       });
+      
     },[tilesData.length]);
 
     const handleIconSave = (itemId: any)=>{
@@ -135,7 +138,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
             openNewWin: tileInfo.openNewWin,
             idField : tileInfo.idField,
             // dpdField : {key: tileInfo.dpdField, text: tileInfo.dpdField},
-            subField: {key: tileInfo.subLinksListName, text: tileInfo.subLinksListName}
+            subField: tileInfo.subLinksListName ? {key: tileInfo.subLinksListName, text: tileInfo.subLinksListName} : {key: "None", text: "None"}
           });   
           if (isFont(tileInfo.iconField)){
             setSelectedIconKey('Icon');
@@ -153,7 +156,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
       };
     };
 
-    const addTileItem = () =>{         
+    const addTileItem = () =>{       
+      toggleIsDataLoading();
       handleError(()=>{
         const tileInfo : any = {
           Title: formField.titleField,
@@ -167,20 +171,27 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
         addTile(props.context, props.tilesList, tileInfo).then(()=>{
           getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
             setTilesData(results);
+            toggleIsDataLoading();
+            dismissPanel();
           });
         });
-        dismissPanel();
+        // dismissPanel();
       });
     };
     const deleteTileItem = () =>{
+      toggleIsDataLoading();
       deleteTile(props.context, props.tilesList, formField.idField).then(()=>{
         getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
-          setTilesData(results);          
+          setTilesData(results);   
+          toggleHideDeleteDialog();      
+          toggleIsDataLoading(); 
+          
         });
       });
-      toggleHideDeleteDialog();
+      
     };
     const updateTileItem = () =>{
+      toggleIsDataLoading();
       handleError(()=>{
         updateTile(props.context, props.tilesList, formField.idField, {
           Title: formField.titleField,
@@ -193,9 +204,12 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
         }).then(()=>{
           getTilesData(props.context, props.tilesList, props.orderBy).then((results)=>{
             setTilesData(results);
+            toggleIsDataLoading();
+            dismissPanel();
           });
+          
         });
-        dismissPanel();
+        // dismissPanel();
       });
     };
 
@@ -209,7 +223,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     return (
       <div className={styles.tilesSPFx}>
         <Label className={styles.wpTitle}>{escape(props.title)}</Label>
-        
+                
           <div className={styles.tilesCntnr}>
             {tilesData.map((value:any, index)=>{
               return(
@@ -256,6 +270,9 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
               }
               <DefaultButton className={styles.marginL10} onClick={dismissPanel} text="Cancel" />
             </div>
+            <div className={styles.preloader}>
+              <IPreloader isDataLoading={isDataLoading} />
+            </div>
         </Panel>
 
         <Dialog
@@ -263,6 +280,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
             onDismiss={toggleHideDeleteDialog} isBlocking={true}
             dialogContentProps={deleteDialogContentProps}>
             <p>Are you sure you want to delete this tile? </p>
+            <IPreloader isDataLoading={isDataLoading} />
             <DialogFooter>
                 <PrimaryButton onClick={deleteTileItem} text="Yes" />
                 <DefaultButton onClick={toggleHideDeleteDialog} text="No" />

@@ -75,7 +75,7 @@ export const getTilesData = async (context:WebPartContext, listTitle: string ,or
     });
 
     for(let tileData of tilesData){
-        if(tileData.SubLinksListName){
+        if(tileData.SubLinksListName && tileData.SubLinksListName !== "None"){
             listData = await getSubLinks(context, tileData.SubLinksListName).then((results)=>{
                 tileData.SubLinksListData = results;
             });
@@ -205,7 +205,7 @@ export const getTile = async (context: WebPartContext, listTitle:string, itemId:
 export const getAllLists = async (context: WebPartContext) =>{
     const restUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists?$select=Title&$filter=BaseType eq 0 and BaseTemplate eq 100 and Hidden eq false`;
     const _data = await context.spHttpClient.get(restUrl, SPHttpClient.configurations.v1).then(response => response.json());
-    const listsDpd : IDropdownOption[] = [];
+    let listsDpd : IDropdownOption[] = [];
 
     _data.value.map((result:any)=>{
         listsDpd.push({
@@ -213,8 +213,8 @@ export const getAllLists = async (context: WebPartContext) =>{
             text: result.Title
         });
     });
-
-    return listsDpd;
+    
+    return [...[{key: "None", text:"None"}], ...listsDpd];
 };
 
 export const isUserManage = (context: WebPartContext) : boolean =>{

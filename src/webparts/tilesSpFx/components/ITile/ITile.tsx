@@ -48,7 +48,7 @@ export default function ITile (props: ITileProps) {
           </>
         } */}
 
-        {(props.SubLinksListName != null) &&
+        {(props.SubLinksListName != null && props.SubLinksListName != 'None') &&
           <>
             <div className={styles.tilesDpdIcon}></div>
             <ul className={styles.tilesDpd}>
