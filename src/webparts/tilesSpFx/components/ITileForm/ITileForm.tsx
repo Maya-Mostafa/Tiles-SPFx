@@ -4,6 +4,7 @@ import styles from '../TilesSPFx.module.scss';
 
 import {Stack, TextField, Dropdown,IDropdownOption, Toggle, ChoiceGroup, IChoiceGroupOption} from '@fluentui/react';
 import {getColors} from '../../Services/Styling';
+import {getAllLists} from '../../Services/DataRequests';
 
 import { initializeIcons } from '@uifabric/icons';
 import {Icon} from '@fluentui/react/lib/Icon';
@@ -54,7 +55,7 @@ export default function ITileForm (props: ITileFormProps) {
       { key: 'Icon', text: 'Icon' },
       { key: 'Image', text: 'Custom Image'},
     ];
-  
+
     return(
         <div className={styles.tileForm}>
             <Stack tokens={stackTokens}>
@@ -76,8 +77,9 @@ export default function ITileForm (props: ITileFormProps) {
                       onChange={props.onChangeFormField} /> */}
                     <Dropdown id="subField" label="Sub Links List" 
                       options={props.siteLists} 
-                      selectedKey={props.formField.subLinksListName ? props.formField.subLinksListName : undefined} 
-                      onChange={props.onChangeFormField} />
+                      selectedKey={props.formField.subField ? props.formField.subField.key : "None"} 
+                      onChange={props.onChangeFormField} 
+                    />
                     {/* <TextField id="subField" label="Sub Links List" value={props.formField.subLinksListName} onChange={props.onChangeFormField} /> */}
                     <ChoiceGroup 
                       id="iconTypeField" name="iconTypeField" label="Thumbnail"
