@@ -1,5 +1,6 @@
 @import '~office-ui-fabric-react/dist/sass/References.scss';
 
+// Peel Colors variables
 $peelBlue : #0096CF;
 $peelGreen: #27AE60;
 $peelGrey: #9FA7A7;
@@ -12,6 +13,7 @@ $peelRed : #D7574A;
 $peelTeal : #38A8AC;
 $peelYellow : #DAA62F;
 
+// Tiles' Colors
 .BlueBg{
   background-color: $peelBlue;
   &:hover{
@@ -113,6 +115,7 @@ $peelYellow : #DAA62F;
 }
 
 
+// Margins
 .marginR5{
   margin-right: 5px;
 }
@@ -126,11 +129,12 @@ $peelYellow : #DAA62F;
   margin-left: 10px;
 }
 
-
+// Preloader
 .preloader{
   margin-top: 40px;
 }
 
+// Tile form (what inside the panel)
 .tileForm{
   .formToggle button{
     min-width: 0;
@@ -166,16 +170,17 @@ $peelYellow : #DAA62F;
  
 }
 
+// Panel - fix for publishing sites
 .panelBtns{
   position: absolute;
   bottom: 20px;
 }
-
 .tilesPanel{
   button{
     min-width: 0;
   }
 }
+
 
 .tilesSPFx {
  
@@ -216,7 +221,6 @@ $peelYellow : #DAA62F;
   }
 
   .button {
-
     min-width: 0;
     // Our button
     text-decoration: none;
@@ -257,10 +261,10 @@ $peelYellow : #DAA62F;
     margin: 0 0 11px 0;
     padding: 0;
   }
+
   .tileControls{
     display: block;
     padding: 0 15px 10px 5px;
-
     &:before{
       content: "";
       background-color: #c8c6c4;
@@ -269,33 +273,40 @@ $peelYellow : #DAA62F;
       width: 100%;
       display: block;
     }
-
+    .controlsBtn{
+      background: inherit;
+      color: inherit;
+      i{
+        color: inherit;
+      }
+    }
     .tilesEditToggle{
       float: right;
       margin-top: -7px;
+      label{
+        color: inherit;
+      }
       button{
         min-width: 0;
       }
     }
   }
 
-
-  
   .tilesCntnr{
-    
     &:after{
       content: '';
       clear: both;
       display: block;
     }
+
     .tile{
       display: block;
       color: #fff;
-      border-radius: 2px;
+      border-radius: 5px;
       width: 135px;
       height: 120px;
       float: left;
-      margin: 5px;
+      margin: 4px;
       text-align: center;
       position: relative;
       transition: all 0.3s ease;
@@ -348,6 +359,10 @@ $peelYellow : #DAA62F;
           transform: scaleX(2.5);
           padding: 5px 0px;
         }
+      }
+      .tileAnchor{
+        border-radius: 3px;
+        border: 1px solid #ffffff21;
       }
       a{
         text-decoration: none;

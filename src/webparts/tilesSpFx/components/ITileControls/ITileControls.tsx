@@ -14,7 +14,7 @@ export default function ITileControls (props: ITileControlsProps) {
 
   return (
     <div className={styles.tileControls}>
-      <CommandBarButton iconProps={addIcon} text="Add Tile" onClick={props.toggleHideDialog} />
+      <CommandBarButton className={styles.controlsBtn} iconProps={addIcon} text="Add Tile" onClick={props.toggleHideDialog} />
       {/* {isUserManage(props.context) && */}
         <Toggle className={styles.tilesEditToggle} label="Edit Tiles" inlineLabel onChange={props.handleEditChange} />
       {/* } */}

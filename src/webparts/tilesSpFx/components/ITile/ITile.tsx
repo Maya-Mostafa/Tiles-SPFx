@@ -16,7 +16,7 @@ export default function ITile (props: ITileProps) {
       <div className={styles.tile +' '+ props.BgColor+ styles.Bg}>
     
       {/* Tile */}
-      <a 
+      <a className={styles.tileAnchor}
         href={(props.SubLinksListName != 'None' && props.SubLinksListName != null) ? "javascript:void(0)" : props.Link} 
         target={(props.SubLinksListName != 'None' && props.SubLinksListName != null) ? "" : props.Target} data-interception="off">
         <div>
