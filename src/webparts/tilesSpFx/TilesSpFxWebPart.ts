@@ -15,6 +15,14 @@ import {SPHttpClient} from '@microsoft/sp-http';
 import TilesSPFx from './components/TilesSPFx';
 import { ITilesSPFxProps } from './components/ITilesSPFxProps';
 
+/** Theming: Step 1: Add references to the theme provider and all related objects **/
+import {
+  ThemeProvider,
+  ThemeChangedEventArgs,
+  IReadonlyTheme,
+  ISemanticColors
+} from '@microsoft/sp-component-base';
+
 export interface ITilesSpFxWebPartProps {
   title: string;
   orderBy: string;
@@ -24,6 +32,7 @@ export interface ITilesSpFxWebPartProps {
 export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWebPartProps> {
 
   public render(): void {
+    const semanticColors: Readonly<ISemanticColors> | undefined = this._themeVariant && this._themeVariant.semanticColors;
     const element: React.ReactElement<ITilesSPFxProps> = React.createElement(
       TilesSPFx,
       {
@@ -31,6 +40,7 @@ export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWe
         context: this.context,
         orderBy: this.properties.orderBy,
         tilesList: this.properties.tilesList,
+        themeVariant: this._themeVariant
       }
     );
 
@@ -43,6 +53,24 @@ export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWe
 
   protected get dataVersion(): Version {
     return Version.parse('1.0');
+  }
+
+  /*** Theming - Background color awareness ***/
+  private _themeProvider: ThemeProvider; //allow access to the theming information of the current web part section
+  private _themeVariant: IReadonlyTheme | undefined; //store all property that   relates to the current theme applied to the page section
+  protected onInit(): Promise<void> {
+    // Consume the new ThemeProvider service
+    this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
+    // If it exists, get the theme variant
+    this._themeVariant = this._themeProvider.tryGetTheme();
+    // Register a handler to be notified if the theme variant changes
+    this._themeProvider.themeChangedEvent.add(this, this._handleThemeChangedEvent);
+    return super.onInit();
+  }
+  /**Update the current theme variant reference and re-render.*/
+  private _handleThemeChangedEvent(args: ThemeChangedEventArgs): void {
+    this._themeVariant = args.theme;
+    this.render();
   }
 
   /* Loading Dpd with list names - Start */

@@ -2,6 +2,7 @@ import * as React from 'react';
 import styles from './TilesSPFx.module.scss';
 import { ITilesSPFxProps } from './ITilesSPFxProps';
 import { escape } from '@microsoft/sp-lodash-subset';
+import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
 import {Label, Dialog, DialogType, DialogFooter, PrimaryButton, DefaultButton, Panel, IChoiceGroupOption} from '@fluentui/react';
 import { IFilePickerResult } from '@pnp/spfx-controls-react/lib/FilePicker';
@@ -16,6 +17,8 @@ import {isFont} from '../Services/Styling';
 import {addTile, deleteTile, updateTile, getTilesData, updateIcon, getAllLists} from '../Services/DataRequests';
 
 export default function TilesSPFx (props: ITilesSPFxProps) {
+
+    const { semanticColors }: IReadonlyTheme = props.themeVariant;
 
     const [tilesData, setTilesData] = React.useState([]);
 
@@ -221,7 +224,8 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     };
 
     return (
-      <div className={styles.tilesSPFx}>
+      <div style={{backgroundColor: semanticColors.bodyBackground}}>
+      <div  className={styles.tilesSPFx}>
         <Label className={styles.wpTitle}>{escape(props.title)}</Label>
                 
           <div className={styles.tilesCntnr}>
@@ -287,6 +291,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
             </DialogFooter>
         </Dialog>
         
+      </div>
       </div>
     );
 }
