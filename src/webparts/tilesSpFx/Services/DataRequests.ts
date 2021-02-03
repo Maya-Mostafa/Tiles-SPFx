@@ -68,8 +68,9 @@ export const getTilesData = async (context:WebPartContext, listTitle: string ,or
             IconName: result.IconName,
             Target: result.OpenInNewWindow ? "_blank" : "_self",
             Order: result.Order,
-            SubLinks: result.SubLinks,
-            SubLinksListName: result.SubLinksList,
+            //SubLinks: result.SubLinks,
+            //SubLinksListName: result.SubLinksList,
+            SubLinksListName: result.SubLinks,
             SubLinksListData: null
         });
     });
@@ -78,6 +79,10 @@ export const getTilesData = async (context:WebPartContext, listTitle: string ,or
         if(tileData.SubLinksListName && tileData.SubLinksListName !== "None"){
             listData = await getSubLinks(context, tileData.SubLinksListName).then((results)=>{
                 tileData.SubLinksListData = results;
+            }).catch((error: any)=>{
+                console.log('List does not exist: ', error);
+                //alert('The sub links list for tile "' + tileData.Title + '" does not exist or mistyped. Please make sure that sublinks list name is correct.');
+                tileData.SubLinksListData = [];
             });
         }
     }
@@ -116,8 +121,9 @@ export const addTile = async (context: WebPartContext, listTitle: string, tileIn
         Link: tileInfo.Link,
         IconName: tileInfo.Icon,
         OpenInNewWindow: tileInfo.OpenNewWin,
-        SubLinks: tileInfo.SubLinks,
-        SubLinksList: tileInfo.SubLinksListName
+        SubLinks: tileInfo.SubLinksListName,
+        // SubLinks: tileInfo.SubLinks,
+        // SubLinksList: tileInfo.SubLinksListName
     }),
     spOptions: ISPHttpClientOptions = {
         headers:{
@@ -159,8 +165,9 @@ export const updateTile = async (context: WebPartContext, listTitle: string, ite
         Link: tileInfo.Link,
         IconName: tileInfo.IconName,
         OpenInNewWindow: tileInfo.OpenNewWin,
-        SubLinks: tileInfo.SubLinks,
-        SubLinksList: tileInfo.SubLinksListName
+        SubLinks: tileInfo.SubLinksListName,
+        // SubLinks: tileInfo.SubLinks,
+        // SubLinksList: tileInfo.SubLinksListName
     }),
     spOptions: ISPHttpClientOptions = {
         headers:{
