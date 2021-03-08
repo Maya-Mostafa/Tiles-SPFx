@@ -61,7 +61,7 @@ export default function ITileForm (props: ITileFormProps) {
                 <Stack id={props.formField.idField}>
                     <TextField id="titleField" name="titleField" label="Title" required 
                         value={props.formField.titleField} onChange={props.onChangeFormField} errorMessage={props.errorMsgField.titleField} />  
-                    <TextField id="linkField" name="linkField" placeholder="https://" label="Link" required errorMessage={props.errorMsgField.linkField}
+                    <TextField id="linkField" name="linkField" placeholder="https:// or https:// or mailto:" label="Link" required errorMessage={props.errorMsgField.linkField}
                         value={props.formField.linkField} onChange={props.onChangeFormField}/>  
                     <Dropdown 
                         placeholder="Select a color" id="colorField"

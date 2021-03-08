@@ -260,6 +260,7 @@ $peelYellow : #DAA62F;
     font-size: 20px;
     margin: 0 0 11px 0;
     padding: 0;
+    color: inherit;
   }
 
   .tileControls{
@@ -298,7 +299,13 @@ $peelYellow : #DAA62F;
       clear: both;
       display: block;
     }
-
+    .filterTxtbox{
+      width: 220px;
+      margin: 0 0 10px 4px;
+      div{
+        border: none!important;
+      }
+    }
     .tile{
       display: block;
       color: #fff;
