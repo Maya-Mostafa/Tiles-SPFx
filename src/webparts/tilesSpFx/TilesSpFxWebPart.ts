@@ -6,7 +6,8 @@ import {
   PropertyPaneTextField,
   PropertyPaneChoiceGroup,
   IPropertyPaneDropdownOption,
-  PropertyPaneDropdown
+  PropertyPaneDropdown,
+  PropertyPaneCheckbox
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import {SPHttpClient} from '@microsoft/sp-http';
@@ -27,6 +28,8 @@ export interface ITilesSpFxWebPartProps {
   title: string;
   orderBy: string;
   tilesList: string;
+  filterText: string;
+  isFilterEnabled: boolean;
 }
 
 export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWebPartProps> {
@@ -40,7 +43,9 @@ export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWe
         context: this.context,
         orderBy: this.properties.orderBy,
         tilesList: this.properties.tilesList,
-        themeVariant: this._themeVariant
+        themeVariant: this._themeVariant,
+        filterText: this.properties.filterText,
+        isFilterEnabled: this.properties.isFilterEnabled
       }
     );
 
@@ -154,6 +159,14 @@ export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWe
                    { key: 'Order', text: 'Order' },
                  ]
                }),
+               PropertyPaneCheckbox('isFilterEnabled', {
+                 text: 'Show Filter',
+                 checked: true
+               }),
+               PropertyPaneTextField('filterText', {
+                label: 'Filter text',
+                value: 'Search...'
+              }),
               ]
             }
           ]

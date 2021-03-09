@@ -7,4 +7,6 @@ export interface ITilesSPFxProps {
   orderBy: string;
   tilesList: string;
   themeVariant: IReadonlyTheme | undefined;
+  filterText: string;
+  isFilterEnabled: boolean;
 }

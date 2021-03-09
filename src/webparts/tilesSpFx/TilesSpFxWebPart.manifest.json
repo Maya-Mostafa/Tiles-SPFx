@@ -25,7 +25,9 @@
       "description": "Tiles SPFx",
       "title" : "",
       "tilesList" : "Tiles",
-      "orderBy" : "Title"
+      "orderBy" : "Title",
+      "isFilterEnabled": true,
+      "filterText" : "Search..."
     }
   }]
 }

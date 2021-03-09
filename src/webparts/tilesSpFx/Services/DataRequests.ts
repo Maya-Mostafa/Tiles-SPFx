@@ -68,6 +68,7 @@ export const getTilesData = async (context:WebPartContext, listTitle: string ,or
             IconName: result.IconName,
             Target: result.OpenInNewWindow ? "_blank" : "_self",
             Order: result.Order,
+            Keywords: result.Keywords ? result.Keywords + "," + result.Title : result.Title,
             //SubLinks: result.SubLinks,
             //SubLinksListName: result.SubLinksList,
             SubLinksListName: result.SubLinks,

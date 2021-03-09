@@ -4,7 +4,7 @@ import { ITilesSPFxProps } from './ITilesSPFxProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
-import {Label, Dialog, DialogType, DialogFooter, PrimaryButton, DefaultButton, Panel, IChoiceGroupOption, TextField} from '@fluentui/react';
+import {Label, Dialog, DialogType, DialogFooter, PrimaryButton, DefaultButton, Panel, IChoiceGroupOption, TextField, SearchBox} from '@fluentui/react';
 import { IFilePickerResult } from '@pnp/spfx-controls-react/lib/FilePicker';
 import { useBoolean } from '@uifabric/react-hooks';
 
@@ -25,7 +25,7 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
     const [filteredItems, setFilteredItems] = React.useState(tilesData);
     const resultCountText = filteredItems.length === tilesData.length ? '' : ` (${filteredItems.length} of ${tilesData.length} shown)`;
     const onFilterChanged = (_: any, text: string): void => {
-      setFilteredItems(tilesData.filter(item => item.Title.toLowerCase().indexOf(text.toLowerCase()) >= 0));
+      setFilteredItems(tilesData.filter(item => item.Keywords.toLowerCase().indexOf(text.toLowerCase()) >= 0));
       //setTilesData(tilesData.filter(item => item.Title.toLowerCase().indexOf(text.toLowerCase()) >= 0));
     };
 
@@ -233,15 +233,22 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
 
     return (
        <div style={{backgroundColor: semanticColors.bodyBackground}}>
-      //<div>
+      {/* <div> */}
       <div  className={styles.tilesSPFx}>
         <Label className={styles.wpTitle}>{escape(props.title)}</Label>
         
         <div className={styles.tilesCntnr}>
-          <TextField className={styles.filterTxtbox}
-            placeholder="Search tiles..."
-            onChange={onFilterChanged}
-          />
+          {props.isFilterEnabled &&
+            // <TextField className={styles.filterTxtbox}
+            //   placeholder={props.filterText}
+            //   onChange={onFilterChanged}
+            // />
+            <SearchBox 
+              placeholder={props.filterText} 
+              onChange={onFilterChanged}
+              className={styles.filterTxtbox}
+            />
+          }
           {filteredItems.map((value:any, index)=>{
             return(
               <>
