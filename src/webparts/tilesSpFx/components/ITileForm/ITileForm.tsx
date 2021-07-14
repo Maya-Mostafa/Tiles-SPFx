@@ -53,6 +53,7 @@ export default function ITileForm (props: ITileFormProps) {
       // { key: 'Auto', text: 'Auto-selected' },
       { key: 'Icon', text: 'Icon' },
       { key: 'Image', text: 'Custom Image'},
+      { key: 'None', text: 'None'},
     ];
 
     return(
