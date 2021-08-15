@@ -2,11 +2,18 @@
 
 ## Summary
 
-Tiles
+- Tiles web part is a quick links display for users. It displays links from a SP list and other links based on user permissions. For each tile, a drop down of links can be added which reads from another list which the user can choose.
+- Each tile has some properties like: title, link, icon/image (optional), color, sub links (optional) and automatically generated order value. 
+- Users can add, edit and delete tiles from a side panel (Fluent UI framework).
+- Users can decide on the tile style. Predefined colors are avaialble for the user to choose from (following the style guide). Picking an icon/image is optional. The icon value is read from the Fabric UI icon library, and the images can be picked using the modern SP file upload window.
+- Instant search is a feature for the tiles web part.
+- The admin can configure the web part properties such as: the list name, the web part title, show/hide the search textbox, and the text that will be displayed as a placeholder for the search box. The order of the tiles can be also determined from this panel either by Title or the Order column.
+- Only admins can add/edit/delete tiles. The options are only visible for whoever has administration permissions.
+
 
 ## Used SharePoint Framework Version
 
-![version](https://img.shields.io/badge/version-1.11-green.svg)
+![Tiles](https://img.shields.io/badge/version-1.11-green.svg)
 
 
 ## Prerequisites
