@@ -1,10 +1,10 @@
-declare interface ITilesSpFxWebPartStrings {
+declare interface ITilesSPFxWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   DescriptionFieldLabel: string;
 }
 
-declare module 'TilesSpFxWebPartStrings' {
-  const strings: ITilesSpFxWebPartStrings;
+declare module 'TilesSPFxWebPartStrings' {
+  const strings: ITilesSPFxWebPartStrings;
   export = strings;
 }

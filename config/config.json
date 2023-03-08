@@ -5,15 +5,15 @@
     "tiles-sp-fx-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/tilesSpFx/TilesSpFxWebPart.js",
-          "manifest": "./src/webparts/tilesSpFx/TilesSpFxWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/tilesSPFx/TilesSPFxWebPart.js",
+          "manifest": "./src/webparts/tilesSPFx/TilesSPFxWebPart.manifest.json"
         }
       ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "TilesSpFxWebPartStrings": "lib/webparts/tilesSpFx/loc/{locale}.js",
+    "TilesSPFxWebPartStrings": "lib/webparts/tilesSPFx/loc/{locale}.js",
     "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
   }
 }

@@ -24,7 +24,7 @@ import {
   ISemanticColors
 } from '@microsoft/sp-component-base';
 
-export interface ITilesSpFxWebPartProps {
+export interface ITilesSPFxWebPartProps {
   title: string;
   orderBy: string;
   tilesList: string;
@@ -32,7 +32,7 @@ export interface ITilesSpFxWebPartProps {
   isFilterEnabled: boolean;
 }
 
-export default class TilesSpFxWebPart extends BaseClientSideWebPart<ITilesSpFxWebPartProps> {
+export default class TilesSPFxWebPart extends BaseClientSideWebPart<ITilesSPFxWebPartProps> {
 
   public render(): void {
     const semanticColors: Readonly<ISemanticColors> | undefined = this._themeVariant && this._themeVariant.semanticColors;
