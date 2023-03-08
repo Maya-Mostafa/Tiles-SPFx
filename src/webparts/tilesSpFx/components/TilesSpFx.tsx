@@ -14,7 +14,7 @@ import ITileForm from './ITileForm/ITileForm';
 import IPreloader from './IPreloader/IPreloader';
 
 import {isFont} from '../Services/Styling';
-import {addTile, deleteTile, updateTile, getTilesData, updateIcon, getAllLists} from '../Services/DataRequests';
+import {addTile, deleteTile, updateTile, getTilesData, updateIcon, getAllLists, isUserManage} from '../Services/DataRequests';
 
 export default function TilesSPFx (props: ITilesSPFxProps) {
 
@@ -271,10 +271,12 @@ export default function TilesSPFx (props: ITilesSPFxProps) {
           })}
         </div>
 
-        <ITileControls
-          toggleHideDialog={handleToggleHideDialog} 
-          handleEditChange={handleEditChange} 
-        />
+        {isUserManage(props.context) &&
+          <ITileControls
+            toggleHideDialog={handleToggleHideDialog} 
+            handleEditChange={handleEditChange} 
+          />
+        }
 
         <Panel
           headerText="Tile Properties" className={styles.tilesPanel}
