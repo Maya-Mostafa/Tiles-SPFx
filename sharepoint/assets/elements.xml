@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">  
+
+    <ListInstance   
+            FeatureId="00bfea71-de22-43b2-a848-c05709900100"  
+            CustomSchema="schema.xml"
+            Title="TilesSettings"   
+            Description="List for Tiles SPFx WP"  
+            TemplateType="100"  
+            Url="Lists/TilesSettings">  
+    </ListInstance>  
+
+    <ContentType ID="0x0100901744D2376562469523F0FC9B911464"
+            Name="TilesSettings"
+            Description="A ContentType for Tiles SPFx Solution">
+    </ContentType>
+
+</Elements>   

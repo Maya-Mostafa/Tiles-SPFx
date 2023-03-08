@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "Peel Modern Tiles",
+    "id": "bf4d82af-887a-4404-b543-42017417a5b5",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "isDomainIsolated": false,
+    "skipFeatureDeployment": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": ""
+    },
+    "features": [
+      {
+        "title": "tiles-assetsprovisioning-solution",
+        "description": "tiles-assetsprovisioning-solution",
+        "id": "4cd8618c-deb0-428e-9622-f49ffab4ca51",
+        "version": "1.0.0.1",
+        "assets": {
+          "elementManifests": [
+            "elements.xml"
+          ],
+          "elementFiles": [
+            "schema.xml"
+          ]
+        }
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/peel-modern-tiles.sppkg"
+  }
+}
